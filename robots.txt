@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /whistleblowing.html
+
+Sitemap: https://www.bos-pco.cz/sitemap.xml
