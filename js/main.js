@@ -203,6 +203,9 @@
     // Scroll-based Animations
     // ============================================
     function initScrollAnimations() {
+        const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+        const isContactPage = currentPath === 'kontakt.html';
+
         // Elements to animate - cards and interactive elements
         const cardElements = document.querySelectorAll(
             '.service-card, .feature-card, .contact-card, .tech-item, ' +
@@ -250,11 +253,21 @@
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-in');
-                    // Unobserve after animation to improve performance
-                    observer.unobserve(entry.target);
+                if (!entry.isIntersecting) return;
+
+                // Na stránce kontakt animuj všechny kontaktní karty najednou
+                if (isContactPage && entry.target.classList.contains('contact-card')) {
+                    const allContactCards = document.querySelectorAll('.contact-card');
+                    allContactCards.forEach(card => {
+                        card.classList.add('animate-in');
+                        observer.unobserve(card);
+                    });
+                    return;
                 }
+
+                entry.target.classList.add('animate-in');
+                // Unobserve after animation to improve performance
+                observer.unobserve(entry.target);
             });
         }, observerOptions);
 
