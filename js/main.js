@@ -227,6 +227,22 @@
             return el && !el.closest('.footer');
         });
 
+        // Na stránce kontakt nechceme animace na scroll,
+        // ale chceme, aby se obsah zobrazil/animoval hned po načtení.
+        if (isContactPage) {
+            filteredElements.forEach(el => {
+                if (!el) return;
+
+                // Omezíme se na prvky v sekci kontakt / kontakt-hero
+                if (el.closest('.contact-section') || el.closest('.contact-hero')) {
+                    el.classList.add('animate-in');
+                    el.style.opacity = '';
+                    el.style.transform = '';
+                }
+            });
+            return;
+        }
+
         // Ensure all elements start hidden (prevent FOUC)
         filteredElements.forEach(el => {
             if (el && !el.classList.contains('animate-in')) {

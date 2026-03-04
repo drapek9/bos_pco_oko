@@ -2,16 +2,19 @@
    CSS Variables
    ============================================ */
 :root {
-    --color-primary: #1e40af;
-    --color-primary-dark: #1e3a8a;
-    --color-secondary: #3b82f6;
+    /* Modernizovaná barevná paleta – modrá zůstává dominantní */
+    --color-primary: #1d4ed8;        /* sytější moderní modrá */
+    --color-primary-dark: #1e3a8a;   /* tmavší námořnická */
+    --color-secondary: #38bdf8;      /* světlejší akcentní modrá */
     --color-accent: #ec2023;
     --color-accent-dark: #c81d20;
-    --color-text: #1f2937;
+
+    --color-text: #0f172a;
     --color-text-light: #6b7280;
     --color-bg: #ffffff;
-    --color-bg-light: #f8fafc;
+    --color-bg-light: #edf2ff;       /* jemné modrobílé pozadí sekcí */
     --color-border: #e5e7eb;
+
     --max-width: 1200px;
     --spacing-xs: 0.5rem;
     --spacing-sm: 1rem;
@@ -19,12 +22,16 @@
     --spacing-lg: 2rem;
     --spacing-xl: 3rem;
     --spacing-2xl: 4rem;
-    --border-radius: 8px;
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08);
-    --shadow-xl: 0 8px 24px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.1);
-    --shadow-2xl: 0 12px 32px rgba(0, 0, 0, 0.18), 0 6px 12px rgba(0, 0, 0, 0.12);
+
+    /* Víc „soft“ zaoblení pro modernější vzhled karet a tlačítek */
+    --border-radius: 14px;
+
+    --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
+    --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
+    --shadow-lg: 0 10px 24px rgba(15, 23, 42, 0.12);
+    --shadow-xl: 0 18px 40px rgba(15, 23, 42, 0.18);
+    --shadow-2xl: 0 24px 60px rgba(15, 23, 42, 0.22);
+
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -217,7 +224,8 @@ ul {
    Hero Sections
    ============================================ */
 .hero {
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 55%),
+                linear-gradient(135deg, #0f172a 0%, var(--color-primary-dark) 40%, var(--color-primary) 100%);
     color: white;
     padding: var(--spacing-2xl) 0;
     text-align: center;
@@ -280,21 +288,29 @@ ul {
 .page-hero {
     padding: var(--spacing-2xl) 0;
     color: white;
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    background:
+        radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 55%),
+        linear-gradient(135deg, #0f172a 0%, var(--color-primary-dark) 40%, var(--color-primary) 100%);
 }
 
 .hero-bos {
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    background:
+        radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 55%),
+        linear-gradient(135deg, #0f172a 0%, var(--color-primary-dark) 40%, var(--color-primary) 100%);
 }
 
 .hero-oko {
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    background:
+        radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 55%),
+        linear-gradient(135deg, #0f172a 0%, var(--color-primary-dark) 40%, var(--color-primary) 100%);
 }
 
 .contact-hero {
     padding: var(--spacing-lg) 0;
     min-height: auto;
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    background:
+        radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 55%),
+        linear-gradient(135deg, #0f172a 0%, var(--color-primary-dark) 40%, var(--color-primary) 100%);
     text-align: center;
 }
 
@@ -335,7 +351,7 @@ ul {
 
 .cta-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
     gap: var(--spacing-xl);
     margin-top: var(--spacing-lg);
 }
@@ -344,7 +360,7 @@ ul {
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(10px);
     border-radius: var(--border-radius);
-    padding: var(--spacing-xl);
+    padding: calc(var(--spacing-lg) * 0.9);
     box-shadow: var(--shadow-md);
     transition: var(--transition-slow);
     text-decoration: none;
@@ -499,8 +515,8 @@ ul {
     padding: 2px var(--spacing-sm);
     background-color: transparent;
     color: var(--color-text-light);
-    border: 1px solid var(--color-border);
-    border-radius: 4px;
+    border: 1px solid rgba(56, 189, 248, 0.8);
+    border-radius: 999px;
     font-size: 0.75rem;
     font-weight: 500;
     white-space: nowrap;
@@ -527,6 +543,43 @@ ul {
     background-color: var(--color-primary-dark);
     transform: translateY(-2px);
     box-shadow: var(--shadow-lg);
+}
+
+/* Menší varianta tlačítka v sekci Reference na homepage */
+.testimonials-section .btn-primary {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    font-size: 0.95rem;
+}
+
+/* Modernější varianta tlačítka pro stránku reference */
+.btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: calc(var(--spacing-sm) + 2px) var(--spacing-xl);
+    background-color: transparent;
+    color: var(--color-primary);
+    border-radius: 999px;
+    border: 1px solid rgba(30, 64, 175, 0.3);
+    font-weight: 500;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 0 0 0 rgba(30, 64, 175, 0.0);
+}
+
+.btn-ghost:hover {
+    background-color: rgba(30, 64, 175, 0.06);
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
+    transform: translateY(-1px);
+}
+
+.btn-ghost:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
 }
 
 /* ============================================
@@ -886,11 +939,11 @@ ul {
 }
 
 .contact-card {
-    background: linear-gradient(135deg, #ffffff, #f5f8ff);
+    background: #ffffff;
     padding: var(--spacing-xl);
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-md);
-    border: 1px solid rgba(0, 0, 0, 0.03);
+    border: 1px solid var(--color-border);
     transition: var(--transition-slow);
     position: relative;
     opacity: 0;
@@ -908,22 +961,22 @@ ul {
 }
 
 .contact-card h3 {
-    color: var(--color-primary);
+    color: var(--color-text);
     margin-bottom: var(--spacing-md);
     transition: var(--transition);
 }
 
 .contact-card:hover h3 {
-    color: var(--color-secondary);
+    color: var(--color-primary);
 }
 
 .contact-card p {
     margin-bottom: var(--spacing-sm);
-    color: var(--color-text);
+    color: var(--color-text-light);
 }
 
 .contact-card a {
-    color: var(--color-secondary);
+    color: var(--color-primary);
     font-weight: 500;
 }
 
@@ -1115,7 +1168,7 @@ ul {
 }
 
 .licence-card {
-    background: white;
+    background: rgba(255, 255, 255, 0.16);
     padding: var(--spacing-md);
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-md);
@@ -1126,6 +1179,8 @@ ul {
     flex-direction: column;
     opacity: 0;
     transform: translateY(20px);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(12px);
 }
 
 .licence-card.animate-in {
@@ -1135,7 +1190,7 @@ ul {
 
 .licence-card:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-xl);
 }
 
 .licence-image {
@@ -1145,7 +1200,7 @@ ul {
     object-fit: contain;
     margin-bottom: var(--spacing-md);
     border-radius: var(--border-radius);
-    background-color: var(--color-bg-light);
+    background-color: rgba(255, 255, 255, 0.12);
 }
 
 .licence-card h3 {
