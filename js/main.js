@@ -19,9 +19,9 @@
             // Animate hamburger icon
             const spans = menuToggle.querySelectorAll('span');
             if (mainNav.classList.contains('open')) {
-                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                spans[0].style.transform = 'rotate(45deg)';
                 spans[1].style.opacity = '0';
-                spans[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
+                spans[2].style.transform = 'rotate(-45deg)';
             } else {
                 spans[0].style.transform = 'none';
                 spans[1].style.opacity = '1';
@@ -209,7 +209,7 @@
         // Elements to animate - cards and interactive elements
         const cardElements = document.querySelectorAll(
             '.service-card, .feature-card, .contact-card, .tech-item, ' +
-            '.licence-card, .contact-method, .person-card, .hours-card, ' +
+            '.licence-card, .licence-cta, .contact-method, .person-card, .hours-card, ' +
             '.pconline-feature, .cta-card, .teamviewer-box, .pconline-login, ' +
             '.opening-hours, .note-box, .testimonial-card'
         );
@@ -296,6 +296,110 @@
 
     // Initialize scroll animations immediately to prevent FOUC
     initScrollAnimations();
+
+    // ============================================
+    // OKO: lightbox galerie certifikátů
+    // ============================================
+    function initOkoCertificateLightbox() {
+        var openBtn = document.getElementById('openCertGallery');
+        var lightbox = document.getElementById('certLightbox');
+        if (!openBtn || !lightbox) {
+            return;
+        }
+
+        var items = [
+            { src: 'img/osvedceni-1.jpg', alt: 'Proškolení ACS-Line', title: 'Proškolení ACS-Line' },
+            { src: 'img/osvedceni-2.jpg', alt: 'Proškolení FBII', title: 'Proškolení FBII' },
+            { src: 'img/osvedceni-3.jpg', alt: 'Proškolení Euroalarm', title: 'Proškolení Euroalarm' },
+            { src: 'img/osvedceni-4.jpg', alt: 'Proškolení Paradox Security', title: 'Proškolení Paradox Security' },
+            { src: 'img/osvedceni-5.jpg', alt: 'Proškolení Esprit', title: 'Proškolení Esprit' },
+            { src: 'img/osvedceni-6.jpg', alt: 'Proškolení Honeywell Galaxy', title: 'Proškolení Honeywell Galaxy' },
+            { src: 'img/osvedceni-7.jpg', alt: 'Proškolení Alphatel', title: 'Proškolení Alphatel' },
+            { src: 'img/osvedceni-8.jpg', alt: 'Proškolení Dominus', title: 'Proškolení Dominus' },
+            { src: 'img/osvedceni-9.jpg', alt: 'Proškolení EPS Lites', title: 'Proškolení EPS Lites' },
+            { src: 'img/osvedceni-10.jpg', alt: 'Certifikát Jablotron', title: 'Certifikát Jablotron' }
+        ];
+
+        var gridHost = document.getElementById('certLightboxGrid');
+        var closeEls = lightbox.querySelectorAll('[data-cert-lightbox-close]');
+        var lastFocus = null;
+        var gridBuilt = false;
+
+        function buildGrid() {
+            if (gridBuilt || !gridHost) {
+                return;
+            }
+            items.forEach(function(item) {
+                var fig = document.createElement('figure');
+                fig.className = 'cert-lightbox__item';
+                fig.setAttribute('role', 'listitem');
+                var im = document.createElement('img');
+                im.src = item.src;
+                im.alt = item.alt;
+                im.loading = 'lazy';
+                im.decoding = 'async';
+                var cap = document.createElement('figcaption');
+                cap.textContent = item.title;
+                fig.appendChild(im);
+                fig.appendChild(cap);
+                gridHost.appendChild(fig);
+            });
+            gridBuilt = true;
+        }
+
+        function open() {
+            lastFocus = document.activeElement;
+            buildGrid();
+            var bodyEl = lightbox.querySelector('.cert-lightbox__body');
+            if (bodyEl) {
+                bodyEl.scrollTop = 0;
+            }
+            lightbox.removeAttribute('hidden');
+            lightbox.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('cert-lightbox-open');
+            var closeBtn = lightbox.querySelector('.cert-lightbox__close');
+            if (closeBtn) {
+                closeBtn.focus();
+            }
+        }
+
+        function close() {
+            lightbox.setAttribute('hidden', '');
+            lightbox.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('cert-lightbox-open');
+            if (lastFocus && typeof lastFocus.focus === 'function') {
+                lastFocus.focus();
+            }
+        }
+
+        openBtn.addEventListener('click', function() {
+            open();
+        });
+
+        closeEls.forEach(function(el) {
+            el.addEventListener('click', function() {
+                close();
+            });
+        });
+
+        lightbox.addEventListener('click', function(e) {
+            if (e.target === lightbox) {
+                close();
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (lightbox.hasAttribute('hidden')) {
+                return;
+            }
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                close();
+            }
+        });
+    }
+
+    initOkoCertificateLightbox();
 
     console.log('BOS-PCO & OKO website loaded successfully');
 })();
