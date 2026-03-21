@@ -7,6 +7,25 @@
     'use strict';
 
     // ============================================
+    // Horní lišta kontaktů – skrytí při scrollu, znovu jen nahoře
+    // ============================================
+    const topContactBar = document.getElementById('topContactBar');
+    if (topContactBar) {
+        const scrollThreshold = 12;
+
+        function updateTopContactBar() {
+            if (window.scrollY > scrollThreshold) {
+                topContactBar.classList.add('top-contact-bar--hidden');
+            } else {
+                topContactBar.classList.remove('top-contact-bar--hidden');
+            }
+        }
+
+        window.addEventListener('scroll', updateTopContactBar, { passive: true });
+        updateTopContactBar();
+    }
+
+    // ============================================
     // Mobile Menu Toggle
     // ============================================
     const menuToggle = document.getElementById('menuToggle');
@@ -211,12 +230,12 @@
             '.service-card, .feature-card, .contact-card, .tech-item, ' +
             '.licence-card, .licence-cta, .contact-method, .person-card, .hours-card, ' +
             '.pconline-feature, .cta-card, .teamviewer-box, .pconline-login, ' +
-            '.opening-hours, .note-box, .testimonial-card'
+            '.opening-hours, .note-box, .testimonial-card, .job-card'
         );
 
         // Text elements to animate
         const textElements = document.querySelectorAll(
-            'h2, h3, .hero-text, .page-intro, .licence-intro, .tech-intro, .pconline-intro'
+            'h2, h3, .hero-text, .page-intro, .licence-intro, .tech-intro, .pconline-intro, .jobs-intro'
         );
 
         // Combine all elements

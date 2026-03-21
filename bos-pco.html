@@ -12,16 +12,36 @@
         .service-card, .feature-card, .contact-card, .tech-item,
         .licence-card, .contact-method, .person-card, .hours-card,
         .cta-card, .teamviewer-box, .pconline-login,
-        .opening-hours, .note-box,
+        .opening-hours, .note-box, .job-card,
         h2:not(.footer h2):not(.footer-column h2),
         h3:not(.footer h3):not(.footer-column h3),
-        .hero-text, .page-intro, .licence-intro, .tech-intro, .pconline-intro {
+        .hero-text, .page-intro, .licence-intro, .tech-intro, .pconline-intro, .jobs-intro {
             opacity: 0;
             transform: translateY(20px);
         }
     </style>
 </head>
 <body>
+    <div class="top-contact-bar" id="topContactBar">
+        <div class="container">
+            <div class="top-contact-bar__inner">
+                <a href="tel:+420469637034" class="top-contact-bar__link">
+                    <svg class="top-contact-bar__svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                        <line x1="12" y1="18" x2="12.01" y2="18"/>
+                    </svg>
+                    <span>+420 469 637 034</span>
+                </a>
+                <a href="mailto:info@bos-pco.cz" class="top-contact-bar__link">
+                    <svg class="top-contact-bar__svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                        <polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                    <span>info@bos-pco.cz</span>
+                </a>
+            </div>
+        </div>
+    </div>
     <header class="header">
         <div class="container">
             <div class="header-content">
@@ -202,7 +222,63 @@
             </div>
         </section>
 
-        <section class="contact-section">
+        <section class="jobs-section" id="volna-mista">
+            <div class="container">
+                <h2>Volná pracovní místa</h2>
+                <p class="jobs-intro">
+                    Níže najdete aktuální příležitosti - pro více informací kontaktujte uvedenou osobu.
+                </p>
+                <div class="jobs-grid">
+                    <article class="job-card">
+                        <div class="job-card__split">
+                            <div class="job-card__cell job-card__cell--title">
+                                <h3>Strážný / objektová ostraha</h3>
+                                <p class="job-card__location">Chrudim</p>
+                            </div>
+                            <div class="job-card__cell job-card__cell--contact">
+                                <span class="job-label">Kontaktní osoba</span>
+                                <div class="job-value job-value--compact">
+                                    <span class="job-contact-name">Vladimír Šprync</span><br>
+                                    <a href="tel:+420777300151">+420 777 300 151</a> · <a href="mailto:sprync@bos-pco.cz">sprync@bos-pco.cz</a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="job-card">
+                        <div class="job-card__split">
+                            <div class="job-card__cell job-card__cell--title">
+                                <h3>Operátor PCO / dispečink</h3>
+                                <p class="job-card__location">Chrudim</p>
+                            </div>
+                            <div class="job-card__cell job-card__cell--contact">
+                                <span class="job-label">Kontaktní osoba</span>
+                                <div class="job-value job-value--compact">
+                                    <span class="job-contact-name">Rostislav Ždímal</span><br>
+                                    <a href="tel:+420777300882">+420 777 300 882</a> · <a href="mailto:zdimal@bos-pco.cz">zdimal@bos-pco.cz</a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="job-card">
+                        <div class="job-card__split">
+                            <div class="job-card__cell job-card__cell--title">
+                                <h3>Pracovník úklidu</h3>
+                                <p class="job-card__location">Chrudim</p>
+                            </div>
+                            <div class="job-card__cell job-card__cell--contact">
+                                <span class="job-label">Kontaktní osoba</span>
+                                <div class="job-value job-value--compact">
+                                    <span class="job-contact-name">Personální oddělení</span><br>
+                                    <a href="tel:+420469637034">+420 469 637 034</a> · <a href="mailto:info@bos-pco.cz">info@bos-pco.cz</a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-section contact-section--alt-bg">
             <div class="container">
                 <h2>Kontakt</h2>
                 <div class="contact-grid">

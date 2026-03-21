@@ -135,6 +135,62 @@ ul {
 }
 
 /* ============================================
+   Top contact bar (nad hlavičkou, skryje se při scrollu)
+   ============================================ */
+.top-contact-bar {
+    background-color: var(--color-primary-dark);
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 0.875rem;
+    overflow: hidden;
+    max-height: 7rem;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    transition:
+        max-height 0.35s ease,
+        opacity 0.28s ease,
+        padding 0.35s ease,
+        border-width 0s linear 0.35s;
+}
+
+.top-contact-bar--hidden {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    opacity: 0;
+    pointer-events: none;
+    border-bottom-width: 0;
+}
+
+.top-contact-bar__inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: var(--spacing-sm) var(--spacing-xl);
+}
+
+.top-contact-bar__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: inherit;
+    text-decoration: none;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+}
+
+.top-contact-bar__link:hover {
+    opacity: 0.88;
+    color: #fff;
+}
+
+.top-contact-bar__svg {
+    flex-shrink: 0;
+    opacity: 0.9;
+}
+
+/* ============================================
    Header
    ============================================ */
 .header {
@@ -844,19 +900,30 @@ ul {
     line-height: 1.6;
 }
 
-/* Kompaktní PCOnline – bez bílé karty, jednodušší celkový dojem */
+/* Kompaktní PCOnline – bez bílé karty; nadpis + úvod jako u plné .pconline-section */
 .pconline-section--compact {
     background: var(--color-bg-light);
-    padding: var(--spacing-xl) 0;
+    padding: var(--spacing-2xl) 0;
+}
+
+/* Bez zužujícího sloupce 1000px + centrování – celá šířka .container jako u dalších sekcí */
+.pconline-section--compact .pconline-content {
+    max-width: none;
+    margin: 0;
+    width: 100%;
 }
 
 .pconline-section--compact .pconline-content > h2 {
-    margin-bottom: var(--spacing-xs);
+    margin-bottom: var(--spacing-md);
+    text-align: left;
 }
 
 .pconline-section--compact .pconline-intro {
     margin-top: 0;
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+    text-align: left;
+    padding-left: 1.5rem;
+    padding-right: 0;
 }
 
 .pconline-section--compact .pconline-login {
@@ -870,6 +937,7 @@ ul {
 .pconline-section--compact .login-button-wrapper {
     margin-top: 0;
     margin-bottom: var(--spacing-sm);
+    justify-content: center;
 }
 
 .pconline-section--compact .login-note {
@@ -974,11 +1042,166 @@ ul {
 }
 
 /* ============================================
+   Volná pracovní místa (BOS-PCO)
+   ============================================ */
+.jobs-section {
+    padding: var(--spacing-2xl) 0;
+    /* Bílé pozadí – střídá se s .pconline-section--compact (bg-light) na stránce BOS-PCO */
+    background-color: var(--color-bg);
+}
+
+.jobs-intro {
+    text-align: left;
+    margin: 0 0 var(--spacing-xl);
+    padding-left: 1.5rem;
+    color: var(--color-text-light);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+}
+
+.jobs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+    width: 100%;
+}
+
+.job-card {
+    background: #fff;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    transition: var(--transition-slow);
+    min-width: 0;
+}
+
+.job-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+
+.job-card h3 {
+    color: var(--color-primary);
+    font-size: 1.125rem;
+    margin: 0 0 0.35rem;
+    padding-bottom: 0;
+    border-bottom: none;
+    line-height: 1.3;
+}
+
+.job-card__location {
+    margin: 0;
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+/* Jedna řada: pozice + místo | Kontaktní osoba */
+.job-card__split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md) var(--spacing-lg);
+    align-items: start;
+}
+
+.job-card__cell {
+    min-width: 0;
+}
+
+.job-card__cell--contact {
+    border-left: 1px solid var(--color-border);
+    padding-left: var(--spacing-lg);
+}
+
+.job-label {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-light);
+    margin-bottom: 0.2rem;
+}
+
+.job-value {
+    margin: 0;
+    color: var(--color-text);
+    line-height: 1.45;
+    font-size: 0.9rem;
+}
+
+.job-value--compact {
+    line-height: 1.5;
+}
+
+.job-value--compact .job-contact-name {
+    display: inline;
+}
+
+.job-value-note {
+    color: var(--color-text-light);
+    font-size: 0.85em;
+}
+
+.job-contact-name {
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.job-value a {
+    color: var(--color-secondary);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+    .job-card__split {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-sm);
+    }
+
+    .job-card__cell--contact {
+        border-left: none;
+        padding-left: 0;
+        padding-top: var(--spacing-sm);
+        border-top: 1px solid var(--color-border);
+    }
+
+    .job-value a {
+        white-space: normal;
+    }
+}
+
+/* ============================================
    Contact Section
    ============================================ */
 .contact-section {
     padding: var(--spacing-2xl) 0;
     background-color: var(--color-bg);
+}
+
+/* Světlé pozadí – střídání se s předchozí bílou sekcí (např. Volná místa na BOS-PCO) */
+.contact-section--alt-bg {
+    background-color: var(--color-bg-light);
+}
+
+/* Stránka OKO – střídání pozadí sekcí pod hero (bílá / světlá) */
+.page-oko .services-section {
+    background-color: var(--color-bg);
+}
+
+.page-oko .licence-section {
+    background-color: var(--color-bg-light);
+}
+
+.page-oko .teamviewer-section {
+    background: var(--color-bg);
+}
+
+.page-oko .contact-section {
+    background-color: var(--color-bg-light);
 }
 
 .contact-grid {
@@ -1494,6 +1717,10 @@ body.cert-lightbox-open {
                 radial-gradient(circle at bottom right, rgba(0, 112, 243, 0.04), transparent 55%);
 }
 
+.teamviewer-section > .container > h2 {
+    margin-bottom: var(--spacing-lg);
+}
+
 .teamviewer-box {
     max-width: 640px;
     margin: 0 auto;
@@ -1778,7 +2005,8 @@ body.cert-lightbox-open {
 .pconline-login:not(.animate-in),
 .opening-hours:not(.animate-in),
 .note-box:not(.animate-in),
-.testimonial-card:not(.animate-in) {
+.testimonial-card:not(.animate-in),
+.job-card:not(.animate-in) {
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
@@ -1790,7 +2018,8 @@ h3:not(.footer h3):not(.footer-column h3):not(.animate-in),
 .page-intro:not(.animate-in),
 .licence-intro:not(.animate-in),
 .tech-intro:not(.animate-in),
-.pconline-intro:not(.animate-in) {
+.pconline-intro:not(.animate-in),
+.jobs-intro:not(.animate-in) {
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
@@ -1895,7 +2124,8 @@ h3:not(.footer h3):not(.footer-column h3):not(.animate-in),
     .features-grid,
     .services-grid,
     .tech-grid,
-    .contact-grid {
+    .contact-grid,
+    .jobs-grid {
         grid-template-columns: 1fr;
     }
 
@@ -1905,7 +2135,8 @@ h3:not(.footer h3):not(.footer-column h3):not(.animate-in),
     .feature-card:hover,
     .contact-card:hover,
     .tech-item:hover,
-    .licence-card:hover {
+    .licence-card:hover,
+    .job-card:hover {
         transform: translateY(-2px);
     }
 
