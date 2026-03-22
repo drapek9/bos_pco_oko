@@ -21,7 +21,7 @@
         }
     </style>
 </head>
-<body>
+<body class="page-bos-pco">
     <div class="top-contact-bar" id="topContactBar">
         <div class="container">
             <div class="top-contact-bar__inner">
@@ -86,8 +86,10 @@
         <section class="services-section">
             <div class="container">
                 <h2>Naše služby</h2>
+                <!-- Pozadí karet: vložte fotky do img/services/ podle názvů v background-image u .service-card__photo-slot -->
                 <div class="services-grid">
-                    <article class="service-card">
+                    <article class="service-card service-card--photo">
+                        <div class="service-card__photo-slot" aria-hidden="true" style="background-image: url('img/services/pco_2.png');"></div>
                         <h3>Pult centrální ochrany (PCO)</h3>
                         <p>
                             Monitorování zabezpečovacích systémů 24/7 s rozsahem působnosti 
@@ -98,12 +100,12 @@
                             <li>Nepřetržité monitorování</li>
                             <li>Okamžitá reakce na poplach</li>
                             <li>Koordinace zásahu</li>
-                            <li>Pravidelné testování spojení</li>
                             <li>Působnost po celé ČR</li>
                         </ul>
                     </article>
 
-                    <article class="service-card">
+                    <article class="service-card service-card--photo">
+                        <div class="service-card__photo-slot" aria-hidden="true" style="background-image: url('img/services/security_2.png');"></div>
                         <h3>Fyzická ostraha objektů</h3>
                         <p>
                             Uniformovaní, prověření pracovníci zajišťují ochranu vašeho 
@@ -115,26 +117,11 @@
                             <li>Kontrola vstupů a pohybu</li>
                             <li>Pravidelné obchůzky</li>
                             <li>Monitoring a evidence</li>
-                            <li>Bezpečnostní průzkum zdarma</li>
                         </ul>
                     </article>
 
-                    <article class="service-card">
-                        <h3>Náhradní plnění</h3>
-                        <p>
-                            Poskytujeme služby náhradního plnění pro zákazníky, kteří mají 
-                            povinnost zaměstnávat osoby se zdravotním postižením. Naše služby 
-                            jsou v souladu s platnou legislativou.
-                        </p>
-                        <ul>
-                            <li>Zajištění náhradního plnění</li>
-                            <li>Dodržení legislativních požadavků</li>
-                            <li>Komplexní administrativa</li>
-                            <li>Individuální přístup</li>
-                        </ul>
-                    </article>
-
-                    <article class="service-card">
+                    <article class="service-card service-card--photo">
+                        <div class="service-card__photo-slot" aria-hidden="true" style="background-image: url('img/services/uklid.png');"></div>
                         <h3>Úklidové služby</h3>
                         <p>
                             Profesionální úklidové služby pro kanceláře, výrobní prostory 
@@ -149,7 +136,25 @@
                         </ul>
                     </article>
 
-                    <article class="service-card">
+                    <article class="service-card service-card--photo">
+                        <div class="service-card__photo-slot" aria-hidden="true" style="background-image: url('img/services/pco_2.png');"></div>
+                        <h3>Náhradní plnění</h3>
+                        <p>
+                            Poskytujeme služby náhradního plnění pro zákazníky, kteří mají 
+                            povinnost zaměstnávat osoby se zdravotním postižením. Naše služby 
+                            jsou v souladu s platnou legislativou.
+                        </p>
+                        <ul>
+                            <li>Zajištění náhradního plnění</li>
+                            <li>Dodržení legislativních požadavků</li>
+                            <li>Komplexní administrativa</li>
+                            <li>Individuální přístup</li>
+                        </ul>
+                    </article>
+
+
+                    <article class="service-card service-card--photo">
+                        <div class="service-card__photo-slot" aria-hidden="true" style="background-image: url('img/services/security_2.png');"></div>
                         <h3>Recepční služby</h3>
                         <p>
                             Zajištění recepčních služeb pro vaši společnost. Profesionální 
@@ -164,7 +169,8 @@
                         </ul>
                     </article>
 
-                    <article class="service-card">
+                    <article class="service-card service-card--photo">
+                        <div class="service-card__photo-slot" aria-hidden="true" style="background-image: url('img/services/uklid.png');"></div>
                         <h3>Patrolní služba</h3>
                         <p>
                             Pravidelné kontroly objektů pomocí patrolní služby. Kontrola 
@@ -179,7 +185,8 @@
                         </ul>
                     </article>
 
-                    <article class="service-card">
+                    <article class="service-card service-card--photo">
+                        <div class="service-card__photo-slot" aria-hidden="true" style="background-image: url('img/services/pco_2.png');"></div>
                         <h3>Zabezpečení akcí</h3>
                         <p>
                             Zajišťování bezpečnostních služeb při společenských, sportovních 
@@ -187,7 +194,6 @@
                             bezpečného průběhu akce.
                         </p>
                         <ul>
-                            <li>Bezpečnostní služby na akcích</li>
                             <li>Společenské akce</li>
                             <li>Sportovní akce</li>
                             <li>Kontrola vstupů</li>

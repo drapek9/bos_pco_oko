@@ -15,9 +15,19 @@
         .opening-hours, .note-box, .testimonial-card,
         h2:not(.footer h2):not(.footer-column h2),
         h3:not(.footer h3):not(.footer-column h3),
-        .hero-text, .page-intro, .licence-intro, .tech-intro, .pconline-intro {
+        .page-intro, .licence-intro, .tech-intro, .pconline-intro {
             opacity: 0;
             transform: translateY(20px);
+        }
+        /* Hero úvod: stejný počátek jako CSS animace (bez FOUC) */
+        .hero--with-visual .hero-copy > h1,
+        .hero--with-visual .hero-text {
+            opacity: 0;
+            transform: translateX(-2rem);
+        }
+        .hero--with-visual .hero-cta-grid .cta-card {
+            opacity: 0;
+            transform: translateY(1.5rem);
         }
     </style>
 </head>
@@ -66,28 +76,35 @@
     </header>
 
     <main>
-        <section class="hero">
+        <section class="hero hero--with-visual">
             <div class="container">
-                <h1>Komplexní zabezpečení a ochrana</h1>
-                <p class="hero-text">
-                    Dvě specializované divize poskytující profesionální služby v oblasti 
-                    technického a fyzického zabezpečení majetku a osob. Spolehlivost, 
-                    profesionalita a dlouholeté zkušenosti.
-                </p>
-                <div class="cta-grid hero-cta-grid">
-                    <a href="bos-pco.html" class="cta-card cta-bos">
-                        <div class="cta-content">
-                            <img src="img/bos_pco_logo.png" alt="BOS-PCO" class="cta-logo">
-                            <p class="cta-description">Ochrana objektů</p>
-                        </div>
-                    </a>
+                <div class="hero-layout">
+                    <div class="hero-copy">
+                        <h1>Komplexní zabezpečení a ochrana</h1>
+                        <p class="hero-text">
+                            Dvě specializované divize poskytující profesionální služby v oblasti
+                            technického a fyzického zabezpečení majetku a osob. Spolehlivost,
+                            profesionalita a dlouholeté zkušenosti.
+                        </p>
+                        <div class="cta-grid hero-cta-grid">
+                            <a href="bos-pco.html" class="cta-card cta-bos">
+                                <div class="cta-content">
+                                    <img src="img/bos_pco_logo.png" alt="BOS-PCO" class="cta-logo">
+                                    <p class="cta-description">Ochrana objektů</p>
+                                </div>
+                            </a>
 
-                    <a href="oko.html" class="cta-card cta-oko">
-                        <div class="cta-content">
-                            <img src="img/oko_logo.png" alt="OKO" class="cta-logo">
-                            <p class="cta-description">Montáže a servis</p>
+                            <a href="oko.html" class="cta-card cta-oko">
+                                <div class="cta-content">
+                                    <img src="img/oko_logo.png" alt="OKO" class="cta-logo">
+                                    <p class="cta-description">Montáže a servis</p>
+                                </div>
+                            </a>
                         </div>
-                    </a>
+                    </div>
+                    <div class="hero-visual">
+                        <img src="img/services/camera.png" alt="" class="hero-visual__img" width="520" decoding="async">
+                    </div>
                 </div>
             </div>
         </section>

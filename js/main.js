@@ -224,6 +224,7 @@
     function initScrollAnimations() {
         const currentPath = window.location.pathname.split('/').pop() || 'index.html';
         const isContactPage = currentPath === 'kontakt.html';
+        const isReferencePage = currentPath === 'reference.html';
 
         // Elements to animate - cards and interactive elements
         const cardElements = document.querySelectorAll(
@@ -243,7 +244,27 @@
 
         // Filter out footer elements - footer should not be animated
         const filteredElements = Array.from(allElements).filter(el => {
-            return el && !el.closest('.footer');
+            if (!el || el.closest('.footer')) {
+                return false;
+            }
+            /* Reference: skryté recenze za „Další“ bez scroll animace */
+            if (el.classList.contains('testimonial-card') && el.hasAttribute('hidden')) {
+                return false;
+            }
+            // Úvodní hero: vlastní vstupní animace zleva (CSS), ne scroll fade
+            if (el.closest('.hero--with-visual')) {
+                if (el.classList.contains('hero-text')) {
+                    return false;
+                }
+                if (el.classList.contains('cta-card')) {
+                    return false;
+                }
+                const heroCopy = el.closest('.hero-copy');
+                if (heroCopy && el.tagName === 'H1' && el.parentElement === heroCopy) {
+                    return false;
+                }
+            }
+            return true;
         });
 
         // Na stránce kontakt nechceme animace na scroll,
@@ -259,6 +280,53 @@
                     el.style.transform = '';
                 }
             });
+            return;
+        }
+
+        /* Reference: prvních 6 recenzí hned po načtení se vstupní animací (ne při scrollu) */
+        if (isReferencePage) {
+            filteredElements.forEach(el => {
+                if (!el) return;
+                if (el.classList.contains('page-intro') && el.closest('.page-hero')) {
+                    el.classList.add('animate-in');
+                    el.style.opacity = '';
+                    el.style.transform = '';
+                }
+            });
+
+            const refGrid = document.getElementById('referenceTestimonialsGrid') ||
+                document.querySelector('.testimonials-section .testimonials-grid');
+            const refCards = refGrid ? refGrid.querySelectorAll('.testimonial-card') : [];
+            const initialReviews = 6;
+            const staggerMs = 75;
+
+            function refRevealCard(card) {
+                card.classList.add('animate-in');
+                card.style.opacity = '';
+                card.style.transform = '';
+            }
+
+            const n = Math.min(initialReviews, refCards.length);
+            const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            if (reducedMotion) {
+                for (let i = 0; i < n; i++) {
+                    refRevealCard(refCards[i]);
+                }
+            } else {
+                window.requestAnimationFrame(function() {
+                    window.requestAnimationFrame(function() {
+                        for (let i = 0; i < n; i++) {
+                            (function(idx) {
+                                window.setTimeout(function() {
+                                    refRevealCard(refCards[idx]);
+                                }, idx * staggerMs);
+                            })(i);
+                        }
+                    });
+                });
+            }
+
             return;
         }
 
@@ -313,6 +381,61 @@
         });
     }
 
+    // ============================================
+    // Reference: „Další“ – další dávky recenzí (prvních 6 animuje initScrollAnimations)
+    // ============================================
+    function initReferenceTestimonialsLoadMore() {
+        const grid = document.getElementById('referenceTestimonialsGrid');
+        const btn = document.getElementById('referenceTestimonialsMore');
+        const cta = document.getElementById('referenceTestimonialsCta');
+        if (!grid || !btn) {
+            return;
+        }
+
+        const cards = grid.querySelectorAll('.testimonial-card');
+        const INITIAL_VISIBLE = 6;
+        const STEP = 6;
+
+        for (let i = INITIAL_VISIBLE; i < cards.length; i++) {
+            cards[i].setAttribute('hidden', '');
+        }
+
+        if (cards.length <= INITIAL_VISIBLE && cta) {
+            cta.classList.add('is-expanded');
+        }
+
+        function syncMoreButton() {
+            const hasMore = grid.querySelector('.testimonial-card[hidden]');
+            if (hasMore) {
+                btn.removeAttribute('hidden');
+            } else {
+                btn.setAttribute('hidden', '');
+            }
+        }
+
+        syncMoreButton();
+
+        btn.addEventListener('click', function() {
+            const hiddenCards = grid.querySelectorAll('.testimonial-card[hidden]');
+            const n = Math.min(STEP, hiddenCards.length);
+
+            for (let j = 0; j < n; j++) {
+                const card = hiddenCards[j];
+                card.removeAttribute('hidden');
+                card.classList.add('animate-in');
+                card.style.opacity = '';
+                card.style.transform = '';
+            }
+
+            syncMoreButton();
+
+            if (n > 0 && cta) {
+                cta.classList.add('is-expanded');
+            }
+        });
+    }
+
+    initReferenceTestimonialsLoadMore();
     // Initialize scroll animations immediately to prevent FOUC
     initScrollAnimations();
 

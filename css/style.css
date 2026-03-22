@@ -10,10 +10,16 @@
     --color-accent-dark: #c81d20;
 
     --color-text: #0f172a;
-    --color-text-light: #6b7280;
+    --color-text-light: #64748b;
     --color-bg: #ffffff;
-    --color-bg-light: #edf2ff;       /* jemné modrobílé pozadí sekcí */
-    --color-border: #e5e7eb;
+    --color-bg-light: #e8eef7;       /* břidlicově modré sekce – ladí s kartami služeb */
+    --color-border: #e2e8f0;
+    /* Jednotný „editorial“ styl karet (jako služby BOS-PCO / OKO) */
+    --card-border: 1px solid rgba(30, 58, 138, 0.12);
+    --card-border-hover: rgba(56, 189, 248, 0.4);
+    --card-surface: linear-gradient(155deg, #ffffff 0%, #f8fafc 45%, #f1f5f9 100%);
+    --card-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+    --card-shadow-hover: 0 16px 40px rgba(15, 23, 42, 0.12);
 
     --max-width: 1200px;
     --spacing-xs: 0.5rem;
@@ -57,7 +63,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: var(--color-text);
-    background-color: var(--color-bg);
+    background-color: #f1f5f9;
     line-height: 1.6;
 }
 
@@ -97,6 +103,37 @@ h1 {
 
 h2 {
     font-size: 2rem;
+}
+
+/* Nadpisy sekcí v main – stejný jazyk jako karty služeb (uppercase + modrá čára) */
+main section > .container > h2,
+.pconline-section .pconline-content > h2 {
+    font-size: 1.65rem;
+    font-weight: 700;
+    letter-spacing: 0.055em;
+    text-transform: uppercase;
+    color: var(--color-primary-dark);
+    line-height: 1.2;
+    margin-bottom: var(--spacing-md);
+}
+
+main section > .container > h2::after,
+.pconline-section .pconline-content > h2::after {
+    content: "";
+    display: block;
+    width: 2.75rem;
+    height: 2px;
+    margin-top: var(--spacing-sm);
+    background: var(--color-secondary);
+    border-radius: 1px;
+}
+
+@media (max-width: 600px) {
+    main section > .container > h2,
+    .pconline-section .pconline-content > h2 {
+        font-size: 1.35rem;
+        letter-spacing: 0.045em;
+    }
 }
 
 h3 {
@@ -200,7 +237,7 @@ ul {
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.15);
 }
 
 .header-content {
@@ -273,14 +310,18 @@ ul {
 .nav-link {
     color: white;
     font-weight: 500;
-    transition: opacity 0.2s ease;
     padding: var(--spacing-xs) 0;
+    /* Rezerva místa pro podtržení – při hoveru se nemění výška řádku */
+    border-bottom: 2px solid transparent;
+    transition:
+        opacity 0.2s ease,
+        border-color 0.2s ease;
 }
 
 .nav-link:hover,
 .nav-link.active {
     opacity: 0.8;
-    border-bottom: 2px solid white;
+    border-bottom-color: white;
 }
 
 /* ============================================
@@ -292,6 +333,191 @@ ul {
     color: white;
     padding: var(--spacing-2xl) 0;
     text-align: center;
+}
+
+/* Úvodní stránka: text vlevo, kamera vpravo „levituje“ */
+.hero--with-visual {
+    text-align: left;
+    overflow: hidden;
+}
+
+.hero-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(200px, 40%);
+    gap: var(--spacing-xl) var(--spacing-2xl);
+    align-items: center;
+}
+
+.hero-copy {
+    text-align: left;
+    max-width: 38rem;
+}
+
+.hero--with-visual h1 {
+    margin-bottom: var(--spacing-md);
+}
+
+@keyframes hero-copy-slide-in {
+    from {
+        opacity: 0;
+        transform: translateX(-2rem);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes hero-cta-rise-in {
+    from {
+        opacity: 0;
+        transform: translateY(1.5rem);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Úvodní stránka: nadpis a perex přijedou zleva (perex s prodlevou) */
+.hero--with-visual .hero-copy > h1 {
+    animation: hero-copy-slide-in 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: 0.25s;
+}
+
+.hero-copy > h1::after {
+    content: "";
+    display: block;
+    width: 3rem;
+    height: 2px;
+    margin: var(--spacing-md) 0 0 0;
+    background: var(--color-secondary);
+    border-radius: 1px;
+}
+
+.hero--with-visual .hero-text {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 34rem;
+    opacity: 0;
+    animation: hero-copy-slide-in 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: 0.7s;
+}
+
+.hero--with-visual .hero-cta-grid {
+    display: grid;
+    /* Vedle sebe i v užším sloupci (min 340px z .cta-grid by je skládal pod sebe) */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--spacing-md);
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: var(--spacing-xl);
+    max-width: 100%;
+}
+
+/* Stejný čas jako nadpis, vstup zespoda (scroll animace na indexu vypnutá v JS) */
+.hero--with-visual .hero-cta-grid .cta-card {
+    opacity: 0;
+    animation: hero-cta-rise-in 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: 0.25s;
+}
+
+/* Karty v hero: kompaktní, o kousek větší než min. varianta */
+.hero--with-visual .cta-card {
+    padding: calc(var(--spacing-sm) + 4px) calc(var(--spacing-md) + 4px);
+}
+
+.hero--with-visual .cta-content {
+    min-height: 0;
+    gap: 0.4rem;
+}
+
+.hero--with-visual .cta-logo {
+    max-height: 82px;
+    margin-bottom: 0.35rem;
+}
+
+.hero--with-visual .cta-description {
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--spacing-sm);
+    pointer-events: none;
+}
+
+.hero-visual__img {
+    width: 100%;
+    max-width: min(400px, 100%);
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 28px 56px rgba(0, 0, 0, 0.4))
+        drop-shadow(0 12px 32px rgba(56, 189, 248, 0.18));
+    animation: hero-visual-float 5s ease-in-out infinite;
+}
+
+@keyframes hero-visual-float {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-14px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-visual__img {
+        animation: none;
+    }
+
+    .hero--with-visual .hero-copy > h1,
+    .hero--with-visual .hero-text,
+    .hero--with-visual .hero-cta-grid .cta-card {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@media (max-width: 960px) {
+    .hero-layout {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+    }
+
+    .hero-copy {
+        max-width: none;
+        text-align: center;
+    }
+
+    .hero-copy > h1::after {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero--with-visual .hero-text {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 36rem;
+    }
+
+    .hero--with-visual .hero-cta-grid {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-visual {
+        max-width: 300px;
+        margin: var(--spacing-md) auto 0;
+    }
 }
 
 .hero-cta-grid {
@@ -321,6 +547,16 @@ ul {
     color: white;
     font-size: 3rem;
     margin-bottom: var(--spacing-md);
+}
+
+.hero .container > h1::after {
+    content: "";
+    display: block;
+    width: 3rem;
+    height: 2px;
+    margin: var(--spacing-md) auto 0;
+    background: var(--color-secondary);
+    border-radius: 1px;
 }
 
 .hero-text {
@@ -381,6 +617,21 @@ ul {
     color: white;
     font-size: 3rem;
     margin-bottom: var(--spacing-sm);
+}
+
+.page-hero .container > h1::after {
+    content: "";
+    display: block;
+    width: 3rem;
+    height: 2px;
+    margin: var(--spacing-md) auto 0;
+    background: var(--color-secondary);
+    border-radius: 1px;
+}
+
+/* Reference: modrá čárka pod nadpisem vlevo (ne uprostřed kontejneru) */
+.page-hero.page-hero--title-line-left .container > h1::after {
+    margin: var(--spacing-md) 0 0 0;
 }
 
 .page-subtitle {
@@ -533,19 +784,26 @@ ul {
 }
 
 .testimonial-card {
-    background: white;
+    background: var(--card-surface);
     padding: var(--spacing-xl);
     border-radius: var(--border-radius);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--card-shadow);
+    border: var(--card-border);
     transition: var(--transition-slow);
     position: relative;
     display: flex;
     flex-direction: column;
 }
 
+/* [hidden] přebije display:flex u karet (jinak by zůstaly „díry“ v mřížce) */
+.testimonial-card[hidden] {
+    display: none !important;
+}
+
 .testimonial-card:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--card-shadow-hover);
+    border-color: var(--card-border-hover);
 }
 
 .testimonial-text {
@@ -590,6 +848,48 @@ ul {
     margin-top: var(--spacing-2xl);
 }
 
+/* Reference + „Další“: oddělení od mřížky, větší mezera po rozšíření */
+.testimonials-cta.testimonials-cta--reference {
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-lg);
+    transition: margin-top 0.4s ease, padding-top 0.4s ease;
+}
+
+.testimonials-cta.testimonials-cta--reference.is-expanded {
+    margin-top: calc(var(--spacing-2xl) + var(--spacing-sm));
+    padding-top: var(--spacing-xl);
+}
+
+/* Tlačítko „Další“ na stránce Reference – čitelnější na světlém pozadí sekce */
+.testimonials-cta--reference .btn-ghost {
+    min-width: 11.5rem;
+    padding: 0.85rem 2.25rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--color-primary);
+    background: #fff;
+    border: 1px solid rgba(29, 78, 216, 0.28);
+    box-shadow: var(--shadow-sm), 0 4px 20px rgba(29, 78, 216, 0.08);
+}
+
+.testimonials-cta--reference .btn-ghost:hover {
+    color: #fff;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    border-color: transparent;
+    box-shadow: 0 10px 28px rgba(29, 78, 216, 0.35);
+    transform: translateY(-2px);
+}
+
+.testimonials-cta--reference .btn-ghost:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 14px rgba(29, 78, 216, 0.25);
+}
+
+.testimonials-cta--reference .btn-ghost:focus-visible {
+    outline: 2px solid var(--color-secondary);
+    outline-offset: 3px;
+}
+
 .btn-primary {
     display: inline-block;
     padding: var(--spacing-md) var(--spacing-xl);
@@ -599,7 +899,7 @@ ul {
     font-weight: 600;
     text-decoration: none;
     transition: var(--transition);
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 4px 14px rgba(29, 78, 216, 0.35);
 }
 
 .btn-primary:hover {
@@ -645,11 +945,16 @@ ul {
     box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
 }
 
+.btn-ghost[hidden] {
+    display: none !important;
+}
+
 /* ============================================
    Features Section
    ============================================ */
 .features-section {
     padding: var(--spacing-2xl) 0;
+    background-color: var(--color-bg);
 }
 
 .features-grid {
@@ -661,17 +966,18 @@ ul {
 
 .feature-card {
     padding: var(--spacing-lg);
-    background: linear-gradient(135deg, #ffffff, #f5f8ff);
+    background: var(--card-surface);
     border-radius: var(--border-radius);
-    box-shadow: var(--shadow-md);
-    border: 1px solid rgba(0, 0, 0, 0.03);
+    box-shadow: var(--card-shadow);
+    border: var(--card-border);
     transition: var(--transition-slow);
     position: relative;
 }
 
 .feature-card:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--card-shadow-hover);
+    border-color: var(--card-border-hover);
 }
 
 .feature-card h3 {
@@ -694,6 +1000,7 @@ ul {
    ============================================ */
 .services-section {
     padding: var(--spacing-2xl) 0;
+    background-color: var(--color-bg);
 }
 
 .services-grid {
@@ -704,18 +1011,19 @@ ul {
 }
 
 .service-card {
-    background: white;
+    background: var(--card-surface);
     padding: var(--spacing-xl);
     border-radius: var(--border-radius);
-    box-shadow: var(--shadow-lg);
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: var(--card-shadow);
+    border: var(--card-border);
     transition: var(--transition-slow);
     position: relative;
 }
 
 .service-card:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-xl);
+    box-shadow: var(--card-shadow-hover);
+    border-color: var(--card-border-hover);
 }
 
 .service-oko:hover h3 {
@@ -763,6 +1071,180 @@ ul {
     color: var(--color-secondary);
 }
 
+/* BOS-PCO + OKO – služby s fotkou: přes celou kartu, překryv, světlý text, stejný vzhled */
+.page-bos-pco .services-grid,
+.page-oko .services-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--spacing-lg);
+}
+
+@media (max-width: 1100px) {
+    .page-bos-pco .services-grid,
+    .page-oko .services-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .page-bos-pco .services-grid,
+    .page-oko .services-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.page-bos-pco .service-card--photo,
+.page-oko .service-card--photo {
+    background: #1e293b;
+    overflow: hidden;
+    isolation: isolate;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: var(--shadow-lg);
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-bos-pco .service-card__photo-slot,
+.page-oko .service-card__photo-slot {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-color: #334155;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transform: scale(1);
+    opacity: 0.52;
+    transition:
+        opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.page-bos-pco .service-card--photo::after,
+.page-oko .service-card--photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    /* Střední tón: čitelný text, ne „vybledlé“ karty */
+    background: linear-gradient(
+        155deg,
+        rgba(15, 23, 42, 0.82) 0%,
+        rgba(15, 23, 42, 0.72) 42%,
+        rgba(30, 58, 138, 0.5) 100%
+    );
+    opacity: 1;
+    transition: opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.page-bos-pco .service-card--photo > *:not(.service-card__photo-slot),
+.page-oko .service-card--photo > *:not(.service-card__photo-slot) {
+    position: relative;
+    z-index: 2;
+}
+
+.page-bos-pco .service-card--photo > p,
+.page-bos-pco .service-card--photo > ul,
+.page-oko .service-card--photo > p,
+.page-oko .service-card--photo > ul {
+    flex: 1;
+}
+
+/* Typografie: nadpis caps, čára, světlý text */
+.page-bos-pco .service-card--photo h3,
+.page-oko .service-card--photo h3 {
+    color: #fff;
+    font-size: 1.125rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1.25;
+    margin-bottom: 0;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    transition: color 0.3s ease;
+}
+
+.page-bos-pco .service-card--photo h3::after,
+.page-oko .service-card--photo h3::after {
+    content: "";
+    display: block;
+    width: 2.75rem;
+    height: 2px;
+    margin-top: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+    background: var(--color-secondary);
+    border-radius: 1px;
+    transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.page-bos-pco .service-card--photo:hover h3::after,
+.page-oko .service-card--photo:hover h3::after {
+    width: calc(2.75rem * 2);
+}
+
+.page-bos-pco .service-card--photo p,
+.page-oko .service-card--photo p {
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 0.95rem;
+    line-height: 1.65;
+    margin-bottom: var(--spacing-sm);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.page-bos-pco .service-card--photo ul li,
+.page-oko .service-card--photo ul li {
+    color: rgba(255, 255, 255, 0.88);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.38);
+}
+
+.page-bos-pco .service-card--photo ul li::before,
+.page-oko .service-card--photo ul li::before {
+    color: var(--color-secondary);
+}
+
+.page-bos-pco .service-card--photo:hover h3,
+.page-oko .service-card--photo:hover h3 {
+    color: #fff;
+}
+
+/* Hover: fotka plně viditelná + zoom, překryv slabší */
+.page-bos-pco .service-card--photo:hover .service-card__photo-slot,
+.page-oko .service-card--photo:hover .service-card__photo-slot {
+    opacity: 1;
+    transform: scale(1.03);
+}
+
+.page-bos-pco .service-card--photo:hover::after,
+.page-oko .service-card--photo:hover::after {
+    opacity: 0.62;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .page-bos-pco .service-card__photo-slot,
+    .page-bos-pco .service-card--photo:hover .service-card__photo-slot,
+    .page-oko .service-card__photo-slot,
+    .page-oko .service-card--photo:hover .service-card__photo-slot {
+        transition-duration: 0.01ms;
+        transform: none;
+    }
+
+    .page-bos-pco .service-card--photo:hover .service-card__photo-slot,
+    .page-oko .service-card--photo:hover .service-card__photo-slot {
+        opacity: 0.85;
+    }
+
+    .page-bos-pco .service-card--photo:hover::after,
+    .page-oko .service-card--photo:hover::after {
+        opacity: 0.75;
+    }
+
+    .page-bos-pco .service-card--photo h3::after,
+    .page-oko .service-card--photo h3::after {
+        transition-duration: 0.01ms;
+    }
+}
+
 /* ============================================
    Tech Section
    ============================================ */
@@ -796,9 +1278,10 @@ ul {
 
 .tech-item {
     padding: var(--spacing-lg);
-    background-color: white;
+    background: var(--card-surface);
     border-radius: var(--border-radius);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--card-shadow);
+    border: var(--card-border);
     transition: var(--transition-slow);
     position: relative;
     opacity: 0;
@@ -812,7 +1295,8 @@ ul {
 
 .tech-item:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--card-shadow-hover);
+    border-color: var(--card-border-hover);
 }
 
 .tech-item h4 {
@@ -869,9 +1353,10 @@ ul {
 
 .pconline-feature {
     padding: var(--spacing-lg);
-    background: white;
+    background: var(--card-surface);
     border-radius: var(--border-radius);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--card-shadow);
+    border: var(--card-border);
     transition: var(--transition-slow);
     opacity: 0;
     transform: translateY(20px);
@@ -884,7 +1369,8 @@ ul {
 
 .pconline-feature:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--card-shadow-hover);
+    border-color: var(--card-border-hover);
 }
 
 .pconline-feature h3 {
@@ -930,6 +1416,7 @@ ul {
     margin-top: 0;
     padding: 0;
     background: transparent;
+    border: none;
     border-radius: 0;
     box-shadow: none;
 }
@@ -947,9 +1434,10 @@ ul {
 .pconline-login {
     margin-top: var(--spacing-2xl);
     padding: var(--spacing-md) var(--spacing-lg);
-    background: white;
+    background: var(--card-surface);
     border-radius: var(--border-radius);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--card-shadow);
+    border: var(--card-border);
     text-align: center;
     opacity: 0;
     transform: translateY(20px);
@@ -1068,18 +1556,19 @@ ul {
 }
 
 .job-card {
-    background: #fff;
+    background: var(--card-surface);
     padding: var(--spacing-md) var(--spacing-lg);
     border-radius: var(--border-radius);
-    box-shadow: var(--shadow-md);
-    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: var(--card-shadow);
+    border: var(--card-border);
     transition: var(--transition-slow);
     min-width: 0;
 }
 
 .job-card:hover {
     transform: translateY(-3px);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--card-shadow-hover);
+    border-color: var(--card-border-hover);
 }
 
 .job-card h3 {
@@ -1212,11 +1701,11 @@ ul {
 }
 
 .contact-card {
-    background: #ffffff;
+    background: var(--card-surface);
     padding: var(--spacing-xl);
     border-radius: var(--border-radius);
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--color-border);
+    box-shadow: var(--card-shadow);
+    border: var(--card-border);
     transition: var(--transition-slow);
     position: relative;
     opacity: 0;
@@ -1230,7 +1719,8 @@ ul {
 
 .contact-card:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--card-shadow-hover);
+    border-color: var(--card-border-hover);
 }
 
 .contact-card h3 {
@@ -1286,9 +1776,10 @@ ul {
 .opening-hours {
     margin-top: var(--spacing-2xl);
     padding: var(--spacing-xl);
-    background-color: white;
+    background: var(--card-surface);
     border-radius: var(--border-radius);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--card-shadow);
+    border: var(--card-border);
     opacity: 0;
     transform: translateY(20px);
 }
@@ -1311,9 +1802,10 @@ ul {
 
 .hours-card {
     padding: var(--spacing-lg);
-    background-color: white;
+    background: var(--card-surface);
     border-radius: var(--border-radius);
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--card-shadow);
+    border: var(--card-border);
     text-align: center;
     opacity: 0;
     transform: translateY(20px);
@@ -1351,11 +1843,12 @@ ul {
 }
 
 .person-card {
-    background-color: white;
+    background: var(--card-surface);
     padding: var(--spacing-md);
     border-radius: var(--border-radius);
+    border: var(--card-border);
+    box-shadow: var(--card-shadow);
     margin-bottom: var(--spacing-md);
-    box-shadow: var(--shadow-sm);
     opacity: 0;
     transform: translateY(20px);
 }
@@ -1725,10 +2218,10 @@ body.cert-lightbox-open {
     max-width: 640px;
     margin: 0 auto;
     padding: var(--spacing-lg);
-    background: linear-gradient(135deg, #ffffff, #f7fbff);
+    background: var(--card-surface);
     border-radius: var(--border-radius);
-    box-shadow: var(--shadow-md);
-    border: 1px solid rgba(0, 0, 0, 0.03);
+    box-shadow: var(--card-shadow);
+    border: var(--card-border);
     text-align: center;
     opacity: 0;
     transform: translateY(20px);
@@ -1799,6 +2292,7 @@ body.cert-lightbox-open {
    ============================================ */
 .content-section {
     padding: var(--spacing-2xl) 0;
+    background-color: var(--color-bg);
 }
 
 .content-wrapper {
@@ -1850,9 +2344,10 @@ body.cert-lightbox-open {
 
 .contact-method {
     padding: var(--spacing-lg);
-    background-color: white;
+    background: var(--card-surface);
     border-radius: var(--border-radius);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--card-shadow);
+    border: var(--card-border);
     transition: var(--transition-slow);
     opacity: 0;
     transform: translateY(20px);
@@ -1865,7 +2360,8 @@ body.cert-lightbox-open {
 
 .contact-method:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--card-shadow-hover);
+    border-color: var(--card-border-hover);
 }
 
 .contact-method p {
@@ -1906,6 +2402,8 @@ body.cert-lightbox-open {
     color: white;
     padding: var(--spacing-2xl) 0 var(--spacing-lg);
     margin-top: 0;
+    border-top: 3px solid rgba(56, 189, 248, 0.45);
+    box-shadow: 0 -12px 40px rgba(15, 23, 42, 0.12);
 }
 
 .footer-content {
@@ -2095,7 +2593,14 @@ h3:not(.footer h3):not(.footer-column h3):not(.animate-in),
         width: 100%;
         text-align: center;
         padding: var(--spacing-sm);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        /* Stejná tloušťka jako na desktopu → žádné „nadskočení“ při hoveru */
+        border-bottom: 2px solid rgba(255, 255, 255, 0.12);
+    }
+
+    /* Po zkratce border-bottom výše znovu bílá čára u aktivní / hover */
+    .nav-link:hover,
+    .nav-link.active {
+        border-bottom-color: white;
     }
 
     .hero h1,
