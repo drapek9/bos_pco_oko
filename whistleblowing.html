@@ -6,6 +6,8 @@
     <meta name="description" content="Možnost oznámení protiprávního jednání v rámci BOS-PCO, s.r.o. a OKO. Důvěrné a bezpečné oznamování nekalých praktik.">
     <meta name="robots" content="noindex, nofollow">
     <title>Whistleblowing | Oznámení protiprávního jednání</title>
+    <link rel="icon" href="img/oko_1_1.png" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/oko_1_1.png">
     <link rel="stylesheet" href="css/style.css">
     <style>
         /* Prevent FOUC - hide animated elements immediately */
@@ -18,6 +20,62 @@
         .hero-text, .page-intro, .licence-intro, .tech-intro, .pconline-intro {
             opacity: 0;
             transform: translateY(20px);
+        }
+
+        /* Whistleblowing – úvodní seznamy/karty (local helpers) */
+        .whistle-bullets {
+            list-style: none;
+            padding-left: 0;
+            margin-top: var(--spacing-md);
+        }
+
+        .whistle-bullets li {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+        }
+
+        .whistle-bullet-icon {
+            color: var(--color-secondary);
+            flex: 0 0 auto;
+            margin-top: 0.15rem;
+        }
+
+        .whistle-bullets--compact {
+            margin-top: 0.75rem;
+        }
+
+        .whistle-step-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.9rem;
+            height: 1.9rem;
+            border-radius: 999px;
+            background: rgba(56, 189, 248, 0.16);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            color: var(--color-secondary);
+            font-weight: 800;
+            font-size: 0.95rem;
+            margin-right: 0.5rem;
+        }
+
+        .whistle-email-cta {
+            margin-top: var(--spacing-md);
+        }
+
+        /* Ochrana – lehce „důvěryhodnější“ vzhled */
+        .whistle-protection {
+            border-color: rgba(56, 189, 248, 0.35);
+            background:
+                radial-gradient(circle at 100% 0%, rgba(56, 189, 248, 0.18), transparent 55%),
+                radial-gradient(circle at 0% 100%, rgba(29, 78, 216, 0.10), transparent 45%),
+                var(--card-surface);
+        }
+
+        /* Proces – jemné rozestupy */
+        .whistle-process-grid {
+            margin-top: var(--spacing-lg);
         }
     </style>
 </head>
@@ -66,7 +124,7 @@
     </header>
 
     <main>
-        <section class="page-hero">
+        <section class="page-hero page-hero--title-line-left">
             <div class="container">
                 <h1>Whistleblowing</h1>
                 <p class="page-subtitle">Oznámení protiprávního jednání</p>
@@ -76,33 +134,134 @@
         <section class="content-section">
             <div class="container">
                 <div class="content-wrapper">
-                    <h2>Možnost oznámení protiprávního jednání</h2>
-                    
+                    <!-- HERO / ÚVOD -->
+                    <h2>Oznámení neetického nebo protiprávního jednání</h2>
                     <p>
-                        BOS-PCO, s.r.o. a OKO (Ing. Vojtěch Jíra) poskytují možnost 
-                        oznámení protiprávního jednání v souladu s platnou legislativou 
-                        České republiky, zejména zákonem č. 171/2023 Sb., o ochraně 
-                        oznamovatelů.
+                        Pokud jste narazili na neetické nebo protiprávní jednání, které se týká naší společnosti,
+                        můžete jej oznámit v souladu se zákonem č. 171/2023 Sb. BOS-PCO, s.r.o. a OKO (Ing. Vojtěch Jíra).
+                        Oznámení lze podat i anonymně. 
+                        <strong>Bez uvedení kontaktu vám ale nemusíme být schopni poskytnout zpětnou vazbu.</strong>
                     </p>
 
-                    <h3>Co lze oznámit</h3>
-                    <p>
-                        Můžete oznámit jakékoli protiprávní jednání, které se týká 
-                        naší společnosti, včetně:
-                    </p>
-                    <ul>
-                        <li>Porušení právních předpisů</li>
-                        <li>Nekalé jednání zaměstnanců nebo managementu</li>
-                        <li>Korupce nebo zneužití postavení</li>
-                        <li>Ohrožení bezpečnosti nebo zdraví</li>
-                        <li>Jiné závažné protiprávní jednání</li>
+                    <!-- CO MŮŽETE OZNÁMIT -->
+                    <h3>Co můžete oznámit</h3>
+                    <ul class="whistle-bullets">
+                        <li>
+                            <svg class="whistle-bullet-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            Porušení právních předpisů
+                        </li>
+                        <li>
+                            <svg class="whistle-bullet-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            Nekalé jednání zaměstnanců nebo managementu
+                        </li>
+                        <li>
+                            <svg class="whistle-bullet-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            Korupce nebo zneužití postavení
+                        </li>
+                        <li>
+                            <svg class="whistle-bullet-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            Ohrožení bezpečnosti nebo zdraví
+                        </li>
+                        <li>
+                            <svg class="whistle-bullet-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            Jiné závažné protiprávní jednání
+                        </li>
                     </ul>
 
-                    <h3>Jak oznámit</h3>
+                    <!-- NOVÁ SEKCE: JAK OZNÁMENÍ PROBÍHÁ -->
+                    <h3>Jak oznámení probíhá</h3>
+                    <div class="contact-methods whistle-process-grid">
+                        <div class="contact-method whistle-step">
+                            <h4>
+                                <span class="whistle-step-badge">1</span>
+                                Podání oznámení
+                            </h4>
+                            <p>
+                                Oznámení podáte písemně nebo e-mailem. Můžete zůstat anonymní, pokud zvolený způsob nevyžaduje kontaktní údaje.
+                            </p>
+                        </div>
+
+                        <div class="contact-method whistle-step">
+                            <h4>
+                                <span class="whistle-step-badge">2</span>
+                                Potvrzení přijetí
+                            </h4>
+                            <p>
+                                Pokud nám umožníte kontakt, potvrzení o přijetí odešleme <strong>do 7 dní</strong> od doručení oznámení.
+                            </p>
+                        </div>
+
+                        <div class="contact-method whistle-step">
+                            <h4>
+                                <span class="whistle-step-badge">3</span>
+                                Prošetření
+                            </h4>
+                            <p>
+                                Každé oznámení je pečlivě prošetřeno a zpracováno důvěrně v rozsahu nezbytném pro vyřízení.
+                            </p>
+                        </div>
+
+                        <div class="contact-method whistle-step">
+                            <h4>
+                                <span class="whistle-step-badge">4</span>
+                                Výsledek / zpětná vazba
+                            </h4>
+                            <p>
+                                V případě potřeby vás budeme informovat o výsledku šetření, pokud to půjde bez porušení důvěrnosti nebo práv třetích stran.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- OCHRANA OZNAMOVATELE -->
+                    <h3>Ochrana oznamovatele</h3>
+                    <div class="contact-method whistle-protection">
+                        <h4>Co to pro vás znamená</h4>
+                        <ul class="whistle-bullets whistle-bullets--compact">
+                            <li>
+                                <svg class="whistle-bullet-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M12 1a4 4 0 0 1 4 4v1h1a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3h1V5a4 4 0 0 1 4-4z"></path>
+                                    <path d="M9 13h6"></path>
+                                </svg>
+                                <strong>Anonymita:</strong> oznámení můžete podat i bez uvedení identifikace, pokud to váš způsob podání umožňuje.
+                            </li>
+                            <li>
+                                <svg class="whistle-bullet-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M12 1l8 4v6c0 5-3.5 9.5-8 12-4.5-2.5-8-7-8-12V5l8-4z"></path>
+                                    <path d="M9 12l2 2 4-4"></path>
+                                </svg>
+                                <strong>Ochrana před odvetou:</strong> máme zajištěnou ochranu před represáliemi v souladu s platnou legislativou.
+                            </li>
+                            <li>
+                                <svg class="whistle-bullet-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                </svg>
+                                <strong>Důvěrnost:</strong> oznámení zpracováváme diskrétně a osobní údaje chráníme.
+                            </li>
+                            <li>
+                                <svg class="whistle-bullet-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M21 15a4 4 0 0 1-4 4H7l-4 4V5a2 2 0 0 1 2-2h12a4 4 0 0 1 4 4v8z"></path>
+                                </svg>
+                                <strong>Osobní údaje:</strong> zpracováváme je jen v nezbytném rozsahu pro vyřízení oznámení.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- JAK PODAT OZNÁMENÍ -->
+                    <h3>Jak podat oznámení</h3>
                     <p>
-                        Oznámení můžete podat následujícími způsoby:
+                        Vyberte si způsob, který vám nejvíc vyhovuje. Níže jsou uvedeny potřebné kontakty.
                     </p>
-                    <div class="contact-methods">
+                    <div class="contact-methods whistle-contact-grid">
                         <div class="contact-method">
                             <h4>Písemně</h4>
                             <p>
@@ -115,35 +274,17 @@
                         <div class="contact-method">
                             <h4>E-mailem</h4>
                             <p>
-                                <a href="mailto:info@bos-pco.cz">
-                                    info@bos-pco.cz
-                                </a>
+                                <a href="mailto:info@bos-pco.cz">info@bos-pco.cz</a>
                             </p>
                         </div>
                     </div>
 
-                    <h3>Ochrana oznamovatele</h3>
-                    <p>
-                        Všem oznamovatelům je zajištěna ochrana před represáliemi v souladu 
-                        s platnou legislativou. Oznámení jsou zpracovávána důvěrně a 
-                        diskrétně. Osobní údaje oznamovatele jsou chráněny a zpracovávány 
-                        pouze v rozsahu nezbytném pro vyřízení oznámení.
-                    </p>
-
-                    <h3>Zpracování oznámení</h3>
-                    <p>
-                        Každé oznámení bude pečlivě prošetřeno. Oznámíme vám přijetí 
-                        oznámení a v případě potřeby vás budeme informovat o výsledku 
-                        šetření, pokud to bude možné bez porušení důvěrnosti nebo 
-                        práv třetích stran.
-                    </p>
-
+                    <!-- DŮLEŽITÉ UPOZORNĚNÍ -->
+                    <h3>Důležité upozornění</h3>
                     <div class="note-box">
                         <p>
-                            <strong>Důležité:</strong> Oznámení by měla být podávána 
-                            v dobré víře a na základě skutečných podezření. Záměrně 
-                            nepravdivá oznámení mohou být posuzována jako zneužití 
-                            tohoto systému.
+                            <strong>Důležité:</strong> Oznámení podávejte v dobré víře a na základě skutečných podnětů.
+                            Záměrně nepravdivá oznámení mohou být posouzena jako zneužití tohoto systému.
                         </p>
                     </div>
                 </div>

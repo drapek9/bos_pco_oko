@@ -32,20 +32,11 @@
     const mainNav = document.getElementById('mainNav');
 
     if (menuToggle && mainNav) {
+        menuToggle.setAttribute('aria-expanded', 'false');
         menuToggle.addEventListener('click', function() {
-            mainNav.classList.toggle('open');
-            
-            // Animate hamburger icon
-            const spans = menuToggle.querySelectorAll('span');
-            if (mainNav.classList.contains('open')) {
-                spans[0].style.transform = 'rotate(45deg)';
-                spans[1].style.opacity = '0';
-                spans[2].style.transform = 'rotate(-45deg)';
-            } else {
-                spans[0].style.transform = 'none';
-                spans[1].style.opacity = '1';
-                spans[2].style.transform = 'none';
-            }
+            const nowOpen = mainNav.classList.toggle('open');
+            menuToggle.classList.toggle('is-open', nowOpen);
+            menuToggle.setAttribute('aria-expanded', nowOpen ? 'true' : 'false');
         });
 
         // Close menu when clicking on a link
@@ -53,10 +44,8 @@
         navLinks.forEach(link => {
             link.addEventListener('click', function() {
                 mainNav.classList.remove('open');
-                const spans = menuToggle.querySelectorAll('span');
-                spans[0].style.transform = 'none';
-                spans[1].style.opacity = '1';
-                spans[2].style.transform = 'none';
+                menuToggle.classList.remove('is-open');
+                menuToggle.setAttribute('aria-expanded', 'false');
             });
         });
 
@@ -67,10 +56,8 @@
             
             if (!isClickInsideNav && !isClickOnToggle && mainNav.classList.contains('open')) {
                 mainNav.classList.remove('open');
-                const spans = menuToggle.querySelectorAll('span');
-                spans[0].style.transform = 'none';
-                spans[1].style.opacity = '1';
-                spans[2].style.transform = 'none';
+                menuToggle.classList.remove('is-open');
+                menuToggle.setAttribute('aria-expanded', 'false');
             }
         });
     }

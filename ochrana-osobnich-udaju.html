@@ -6,6 +6,8 @@
     <meta name="description" content="Ochrana osobních údajů - BOS-PCO, s.r.o. Informace o zpracování osobních údajů a používání cookies na webových stránkách.">
     <meta name="keywords" content="ochrana osobních údajů, GDPR, cookies, soukromí, BOS-PCO">
     <title>Ochrana osobních údajů | BOS-PCO & OKO</title>
+    <link rel="icon" href="img/oko_1_1.png" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/oko_1_1.png">
     <link rel="stylesheet" href="css/style.css">
     <style>
         /* Prevent FOUC - hide animated elements immediately */
@@ -18,6 +20,16 @@
         .hero-text, .page-intro, .licence-intro, .tech-intro, .pconline-intro {
             opacity: 0;
             transform: translateY(20px);
+        }
+
+        /* Ochrana soukromí: krátký lidský text */
+        .privacy-simplified {
+            display: block;
+        }
+
+        /* Skryj původní dlouhý právnický obsah, ať je vidět jen finální text */
+        .content-wrapper > :not(.privacy-simplified) {
+            display: none !important;
         }
     </style>
 </head>
@@ -66,7 +78,7 @@
     </header>
 
     <main>
-        <section class="page-hero">
+        <section class="page-hero page-hero--title-line-left">
             <div class="container">
                 <h1>Ochrana osobních údajů</h1>
             </div>
@@ -75,6 +87,27 @@
         <section class="content-section">
             <div class="container">
                 <div class="content-wrapper">
+                    <div class="privacy-simplified">
+                        <h3>Co jsou cookies</h3>
+                        <p>
+                            Cookies jsou malé soubory, které web ukládá do vašeho prohlížeče, aby web správně fungoval.
+                            Používáme je jen v nezbytných případech.
+                        </p>
+
+                        <h3>Jaké cookies používáme</h3>
+                        <p>
+                            Používáme technické (nezbytné) cookies a analytické cookies.
+                            Analytické cookies měří anonymní statistiky návštěvnosti, abychom rozuměli tomu, jak web lidé používají.
+                            Analýzu zajišťuje Firebase Analytics.
+                        </p>
+
+                        <h3>Jak cookies odmítnout</h3>
+                        <p>
+                            Cookies můžete odmítnout v liště s cookies.
+                            Když vypnete analytické měření, web bude fungovat stejně, jen nebudou se sbírat anonymní statistiky.
+                            Vaši volbu můžete kdykoliv změnit.
+                        </p>
+                    </div>
                     <p>
                         Správcem osobních údajů a provozovatelem internetových stránek 
                         www.bos-pco.cz je společnost BOS-PCO s.r.o. (dále jen "Provozovatel").

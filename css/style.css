@@ -286,19 +286,56 @@ ul {
 
 .menu-toggle {
     display: none;
-    flex-direction: column;
+    position: relative;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    flex-shrink: 0;
     background: none;
     border: none;
     cursor: pointer;
-    padding: var(--spacing-xs);
-    gap: 4px;
+    -webkit-tap-highlight-color: transparent;
 }
 
+/* Čáry ve společném středu → po rotaci správný křížek (flex + gap to láme) */
 .menu-toggle span {
+    position: absolute;
+    left: 50%;
+    top: 50%;
     width: 25px;
     height: 3px;
+    margin-left: -12.5px;
+    margin-top: -1.5px;
     background-color: white;
-    transition: var(--transition);
+    border-radius: 1px;
+    transform-origin: center;
+    transition:
+        transform 0.3s ease,
+        opacity 0.25s ease;
+}
+
+.menu-toggle span:nth-child(1) {
+    transform: translateY(-7px);
+}
+
+.menu-toggle span:nth-child(2) {
+    transform: translateY(0);
+}
+
+.menu-toggle span:nth-child(3) {
+    transform: translateY(7px);
+}
+
+.menu-toggle.is-open span:nth-child(1) {
+    transform: translateY(0) rotate(45deg);
+}
+
+.menu-toggle.is-open span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.is-open span:nth-child(3) {
+    transform: translateY(0) rotate(-45deg);
 }
 
 .nav {
@@ -774,6 +811,17 @@ ul {
     color: var(--color-text-light);
     font-size: 1.125rem;
     line-height: 1.8;
+}
+
+/* Reference na homepage – text pod nadpisem doleva */
+.testimonials-section .section-intro {
+    text-align: left;
+    /* Odsazení zleva o 1.5rem (posunout blok, ne jen text) */
+    padding-left: 0;
+    margin-left: var(--spacing-md);
+    margin-right: auto;
+    margin-top: 0;
+    margin-bottom: var(--spacing-xl);
 }
 
 .testimonials-grid {
@@ -1530,7 +1578,7 @@ ul {
 }
 
 /* ============================================
-   Volná pracovní místa (BOS-PCO)
+   Volná pracovní místa (BOS-PCO, OKO)
    ============================================ */
 .jobs-section {
     padding: var(--spacing-2xl) 0;
@@ -1555,6 +1603,12 @@ ul {
     width: 100%;
 }
 
+/* OKO / BOS-PCO: jedna karta na řádek */
+.page-oko .jobs-grid,
+.page-bos-pco .jobs-grid {
+    grid-template-columns: 1fr;
+}
+
 .job-card {
     background: var(--card-surface);
     padding: var(--spacing-md) var(--spacing-lg);
@@ -1565,43 +1619,247 @@ ul {
     min-width: 0;
 }
 
+.job-card--oko {
+    padding: var(--spacing-md) var(--spacing-lg);
+}
+
 .job-card:hover {
     transform: translateY(-3px);
     box-shadow: var(--card-shadow-hover);
     border-color: var(--card-border-hover);
 }
 
-.job-card h3 {
-    color: var(--color-primary);
-    font-size: 1.125rem;
-    margin: 0 0 0.35rem;
-    padding-bottom: 0;
-    border-bottom: none;
-    line-height: 1.3;
+.job-card__content {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-width: 0;
 }
 
-.job-card__location {
-    margin: 0;
-    color: var(--color-text-light);
-    font-size: 0.9rem;
-    line-height: 1.4;
-}
-
-/* Jedna řada: pozice + místo | Kontaktní osoba */
-.job-card__split {
+/* OKO: vlevo název a kontakt pod sebou, vedle popis a požadujeme */
+.job-card--oko .job-card__content {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(10.5rem, 1fr) minmax(12rem, 1.35fr) minmax(12rem, 1.35fr);
+    grid-template-rows: auto auto;
     gap: var(--spacing-md) var(--spacing-lg);
     align-items: start;
 }
 
-.job-card__cell {
+.job-card--oko .job-card__content > .job-field:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.job-card--oko .job-card__content > .job-field:nth-child(4) {
+    grid-column: 1;
+    grid-row: 2;
+    margin-top: var(--spacing-sm);
+}
+
+.job-card--oko .job-card__content > .job-field:nth-child(2) {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: start;
+}
+
+.job-card--oko .job-card__content > .job-field:nth-child(3) {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    align-self: start;
+}
+
+.job-field {
     min-width: 0;
 }
 
-.job-card__cell--contact {
-    border-left: 1px solid var(--color-border);
-    padding-left: var(--spacing-lg);
+.job-field + .job-field {
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--color-border);
+}
+
+.job-card--oko .job-field + .job-field,
+.job-card--bos-pco .job-field + .job-field {
+    border-top: none;
+    padding-top: 0;
+}
+
+@media (max-width: 1024px) {
+    .job-card--oko .job-card__content {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+        grid-template-rows: auto auto;
+    }
+
+    .job-card--oko .job-card__content > .job-field:nth-child(2) {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    .job-card--oko .job-card__content > .job-field:nth-child(3) {
+        grid-column: 2;
+        grid-row: 2;
+    }
+}
+
+@media (max-width: 640px) {
+    .job-card--oko .job-card__content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+
+    .job-card--oko .job-card__content > .job-field:nth-child(1) {
+        order: 1;
+    }
+
+    .job-card--oko .job-card__content > .job-field:nth-child(4) {
+        order: 2;
+    }
+
+    .job-card--oko .job-card__content > .job-field:nth-child(2) {
+        order: 3;
+    }
+
+    .job-card--oko .job-card__content > .job-field:nth-child(3) {
+        order: 4;
+    }
+}
+
+/* BOS-PCO: vlevo název + kontakt pod sebou, vedle lokalita a popis práce */
+.job-card--bos-pco .job-card__content {
+    display: grid;
+    grid-template-columns: minmax(10.5rem, 1fr) minmax(7rem, 0.85fr) minmax(12rem, 1.35fr);
+    grid-template-rows: auto auto;
+    row-gap: var(--spacing-sm);
+    column-gap: var(--spacing-lg);
+    align-items: start;
+}
+
+.job-card--bos-pco .job-card__content > .job-field:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.job-card--bos-pco .job-card__content > .job-field:nth-child(4) {
+    grid-column: 1;
+    grid-row: 2;
+    margin-top: var(--spacing-xs);
+}
+
+.job-card--bos-pco .job-card__content > .job-field:nth-child(2) {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: start;
+}
+
+.job-card--bos-pco .job-card__content > .job-field:nth-child(3) {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    align-self: start;
+}
+
+@media (max-width: 1024px) {
+    .job-card--bos-pco .job-card__content {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+        grid-template-rows: auto auto;
+    }
+
+    .job-card--bos-pco .job-card__content > .job-field:nth-child(2) {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    .job-card--bos-pco .job-card__content > .job-field:nth-child(3) {
+        grid-column: 2;
+        grid-row: 2;
+    }
+}
+
+@media (max-width: 640px) {
+    .job-card--bos-pco .job-card__content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+
+    .job-card--bos-pco .job-card__content > .job-field:nth-child(1) {
+        order: 1;
+    }
+
+    .job-card--bos-pco .job-card__content > .job-field:nth-child(4) {
+        order: 2;
+    }
+
+    .job-card--bos-pco .job-card__content > .job-field:nth-child(2) {
+        order: 3;
+    }
+
+    .job-card--bos-pco .job-card__content > .job-field:nth-child(3) {
+        order: 4;
+    }
+}
+
+.job-field__label {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-light);
+    margin-bottom: 0.45rem;
+}
+
+.job-card .job-field h3 {
+    color: var(--color-primary);
+    font-size: 1.125rem;
+    margin: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+    line-height: 1.35;
+}
+
+.job-field__value {
+    margin: 0;
+    color: var(--color-text);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+}
+
+.job-field__body {
+    margin: 0;
+    color: var(--color-text);
+    font-size: 0.9375rem;
+    line-height: 1.75;
+}
+
+.job-field__body > p {
+    margin: 0 0 0.75em;
+}
+
+.job-field__body > p:last-child {
+    margin-bottom: 0;
+}
+
+.job-field__body > ul {
+    margin: 0.5em 0 0;
+    padding-left: 1.25rem;
+}
+
+.job-field__body > ul > li {
+    margin-bottom: 0.35em;
+}
+
+.job-field__body > ul > li:last-child {
+    margin-bottom: 0;
+}
+
+.job-field__body--contact .job-contact-name {
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.job-field__body--contact a {
+    color: var(--color-secondary);
+    font-weight: 500;
 }
 
 .job-label {
@@ -1646,19 +1904,15 @@ ul {
 }
 
 @media (max-width: 640px) {
-    .job-card__split {
+    .jobs-grid {
         grid-template-columns: 1fr;
-        gap: var(--spacing-sm);
-    }
-
-    .job-card__cell--contact {
-        border-left: none;
-        padding-left: 0;
-        padding-top: var(--spacing-sm);
-        border-top: 1px solid var(--color-border);
     }
 
     .job-value a {
+        white-space: normal;
+    }
+
+    .job-field__body--contact a {
         white-space: normal;
     }
 }
@@ -1676,7 +1930,7 @@ ul {
     background-color: var(--color-bg-light);
 }
 
-/* Stránka OKO – střídání pozadí sekcí pod hero (bílá / světlá) */
+/* Stránka OKO – střídání pozadí sekcí pod hero (bílá / světlá / bílá / …) */
 .page-oko .services-section {
     background-color: var(--color-bg);
 }
@@ -1689,8 +1943,12 @@ ul {
     background: var(--color-bg);
 }
 
-.page-oko .contact-section {
+.page-oko .jobs-section {
     background-color: var(--color-bg-light);
+}
+
+.page-oko .contact-section {
+    background-color: var(--color-bg);
 }
 
 .contact-grid {
@@ -2285,6 +2543,56 @@ body.cert-lightbox-open {
     background-color: var(--color-primary-dark);
     box-shadow: 0 10px 20px rgba(0, 112, 243, 0.3);
     transform: translateY(-1px);
+}
+
+/* ============================================
+   Downloads (úvodní stránka / OKO)
+   ============================================ */
+.teamviewer-section .downloads-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--spacing-xl);
+    margin-top: var(--spacing-lg);
+}
+
+.teamviewer-section .download-card {
+    text-align: left;
+    padding: var(--spacing-lg) var(--spacing-lg);
+}
+
+.teamviewer-section .download-actions {
+    margin-top: var(--spacing-md);
+}
+
+.teamviewer-section .download-card h3 {
+    margin-bottom: var(--spacing-xs);
+    font-size: 1.1rem;
+}
+
+.teamviewer-section .download-card p {
+    margin-bottom: var(--spacing-sm);
+    font-size: 0.98rem;
+    opacity: 0.95;
+}
+
+.teamviewer-section .download-actions .btn-primary {
+    white-space: nowrap;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.95rem;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    border-radius: 999px;
+    box-shadow: 0 6px 14px rgba(0, 112, 243, 0.25);
+}
+
+@media (max-width: 720px) {
+    .teamviewer-section .downloads-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* ============================================
