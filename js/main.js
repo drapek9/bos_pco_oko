@@ -211,7 +211,9 @@
     function initScrollAnimations() {
         const currentPath = window.location.pathname.split('/').pop() || 'index.html';
         const isContactPage = currentPath === 'kontakt.html';
-        const isReferencePage = currentPath === 'reference.html';
+        const isBosPcoPage = currentPath === 'bos-pco.html';
+        const isOkoPage = currentPath === 'oko.html';
+        const testimonialsStaggerPage = isBosPcoPage || isOkoPage;
 
         // Elements to animate - cards and interactive elements
         const cardElements = document.querySelectorAll(
@@ -223,7 +225,7 @@
 
         // Text elements to animate
         const textElements = document.querySelectorAll(
-            'h2, h3, .hero-text, .page-intro, .licence-intro, .tech-intro, .pconline-intro, .jobs-intro'
+            'h2, h3, .hero-text, .page-intro, .licence-intro, .tech-intro, .pconline-intro, .jobs-intro, .section-intro'
         );
 
         // Combine all elements
@@ -270,8 +272,8 @@
             return;
         }
 
-        /* Reference: prvních 6 recenzí hned po načtení se vstupní animací (ne při scrollu) */
-        if (isReferencePage) {
+        /* BOS-PCO / OKO: sekce Reference – úvod a prvních 6 recenzí hned s animací */
+        if (testimonialsStaggerPage) {
             filteredElements.forEach(el => {
                 if (!el) return;
                 if (el.classList.contains('page-intro') && el.closest('.page-hero')) {
@@ -281,8 +283,16 @@
                 }
             });
 
-            const refGrid = document.getElementById('referenceTestimonialsGrid') ||
-                document.querySelector('.testimonials-section .testimonials-grid');
+            document.querySelectorAll(
+                '.testimonials-section > .container > h2, .testimonials-section .section-intro'
+            ).forEach(function(el) {
+                el.classList.add('animate-in');
+                el.style.opacity = '';
+                el.style.transform = '';
+            });
+
+            const refGrid = document.getElementById('bosPcoTestimonialsGrid') ||
+                document.getElementById('okoTestimonialsGrid');
             const refCards = refGrid ? refGrid.querySelectorAll('.testimonial-card') : [];
             const initialReviews = 6;
             const staggerMs = 75;
@@ -314,7 +324,7 @@
                 });
             }
 
-            return;
+            /* Nepřerušovat – zbytek stránky potřebuje scroll animace (dříve return schovával vše) */
         }
 
         // Ensure all elements start hidden (prevent FOUC)
@@ -362,19 +372,19 @@
         }, observerOptions);
 
         filteredElements.forEach(el => {
-            if (el) {
+            if (el && !el.classList.contains('animate-in')) {
                 observer.observe(el);
             }
         });
     }
 
     // ============================================
-    // Reference: „Další“ – další dávky recenzí (prvních 6 animuje initScrollAnimations)
+    // Reference (BOS-PCO / OKO): „Další“ – dávky recenzí
     // ============================================
-    function initReferenceTestimonialsLoadMore() {
-        const grid = document.getElementById('referenceTestimonialsGrid');
-        const btn = document.getElementById('referenceTestimonialsMore');
-        const cta = document.getElementById('referenceTestimonialsCta');
+    function initTestimonialsLoadMore(gridId, btnId, ctaId) {
+        const grid = document.getElementById(gridId);
+        const btn = document.getElementById(btnId);
+        const cta = ctaId ? document.getElementById(ctaId) : null;
         if (!grid || !btn) {
             return;
         }
@@ -422,7 +432,8 @@
         });
     }
 
-    initReferenceTestimonialsLoadMore();
+    initTestimonialsLoadMore('bosPcoTestimonialsGrid', 'bosPcoTestimonialsMore', 'bosPcoTestimonialsCta');
+    initTestimonialsLoadMore('okoTestimonialsGrid', 'okoTestimonialsMore', 'okoTestimonialsCta');
     // Initialize scroll animations immediately to prevent FOUC
     initScrollAnimations();
 

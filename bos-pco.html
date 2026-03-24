@@ -14,10 +14,10 @@
         .service-card, .feature-card, .contact-card, .tech-item,
         .licence-card, .contact-method, .person-card, .hours-card,
         .cta-card, .teamviewer-box, .pconline-login,
-        .opening-hours, .note-box, .job-card,
+        .opening-hours, .note-box, .job-card, .testimonial-card,
         h2:not(.footer h2):not(.footer-column h2),
         h3:not(.footer h3):not(.footer-column h3),
-        .hero-text, .page-intro, .licence-intro, .tech-intro, .pconline-intro, .jobs-intro {
+        .hero-text, .page-intro, .licence-intro, .tech-intro, .pconline-intro, .jobs-intro, .section-intro {
             opacity: 0;
             transform: translateY(20px);
         }
@@ -60,7 +60,6 @@
                     <a href="index.html" class="nav-link">Domů</a>
                     <a href="bos-pco.html" class="nav-link active">BOS-PCO</a>
                     <a href="oko.html" class="nav-link">OKO</a>
-                    <a href="reference.html" class="nav-link">Reference</a>
                     <a href="kontakt.html" class="nav-link">Kontakt</a>
                 </nav>
             </div>
@@ -230,6 +229,71 @@
             </div>
         </section>
 
+        <section class="testimonials-section" id="reference">
+            <div class="container">
+                <h2>Reference</h2>
+                <p class="section-intro">
+                    Hodnocení klientů, kteří využívají služby BOS-PCO – pult centrální ochrany, fyzickou ostrahu a související bezpečnostní služby.
+                </p>
+                <div class="testimonials-grid" id="bosPcoTestimonialsGrid">
+                    <article class="testimonial-card">
+                        <p class="testimonial-text">
+                            "Spolupracujeme s BOS-PCO již několik let a jsme velmi spokojeni.
+                            Profesionální přístup, spolehlivá služba a rychlá reakce na naše požadavky.
+                            Doporučujeme."
+                        </p>
+                        <div class="testimonial-footer">
+                            <p class="testimonial-author">Ing. Jan Novák, ABC s.r.o.</p>
+                        </div>
+                    </article>
+
+                    <article class="testimonial-card">
+                        <p class="testimonial-text">
+                            "Fyzická ostraha našich objektů je na vysoké úrovni. Stráže jsou
+                            spolehlivé, komunikace s pultem centrální ochrany funguje bezchybně.
+                            Cítíme se bezpečně."
+                        </p>
+                        <div class="testimonial-footer">
+                            <p class="testimonial-author">Tomáš Dvořák, DEF spol. s r.o.</p>
+                        </div>
+                    </article>
+
+                    <article class="testimonial-card">
+                        <p class="testimonial-text">
+                            "Služby BOS-PCO nám pomohly zlepšit zabezpečení celého areálu. Oceňujeme
+                            spolehlivost a ochotu přizpůsobit řešení našim potřebám."
+                        </p>
+                        <div class="testimonial-footer">
+                            <p class="testimonial-author">Karel Němec, JKL Logistics</p>
+                        </div>
+                    </article>
+
+                    <article class="testimonial-card">
+                        <p class="testimonial-text">
+                            "Propojení EZS s pultem BOS-PCO nám výrazně zjednodušilo dohled nad provozovnami.
+                            V případě poplachu máme jistotu, že zásah proběhne rychle a koordinovaně."
+                        </p>
+                        <div class="testimonial-footer">
+                            <p class="testimonial-author">Bc. Lucie Urbanová, Retail Park Chrudim</p>
+                        </div>
+                    </article>
+
+                    <article class="testimonial-card">
+                        <p class="testimonial-text">
+                            "Hlídací službu využíváme pro administrativní budovu i sklad. Služba je stabilní,
+                            komunikace s dispečinkem přehledná. Oceňujeme vstřícnost při mimořádných požadavcích."
+                        </p>
+                        <div class="testimonial-footer">
+                            <p class="testimonial-author">Jan Černý, Výrobní družstvo Východní Čechy</p>
+                        </div>
+                    </article>
+                </div>
+                <div class="testimonials-cta testimonials-cta--reference" id="bosPcoTestimonialsCta">
+                    <button type="button" class="btn-ghost" id="bosPcoTestimonialsMore">Další</button>
+                </div>
+            </div>
+        </section>
+
         <section class="jobs-section" id="volna-mista">
             <div class="container">
                 <h2>Volná pracovní místa</h2>
@@ -268,7 +332,7 @@
             </div>
         </section>
 
-        <section class="contact-section contact-section--alt-bg">
+        <section class="contact-section">
             <div class="container">
                 <h2>Kontakt</h2>
                 <div class="contact-grid">

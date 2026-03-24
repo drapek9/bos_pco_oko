@@ -896,6 +896,18 @@ ul {
     margin-top: var(--spacing-2xl);
 }
 
+.testimonials-cta--dual {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.testimonials-cta--dual .btn-primary {
+    margin: 0;
+}
+
 /* Reference + „Další“: oddělení od mřížky, větší mezera po rozšíření */
 .testimonials-cta.testimonials-cta--reference {
     margin-top: var(--spacing-xl);
@@ -1930,7 +1942,7 @@ ul {
     background-color: var(--color-bg-light);
 }
 
-/* Stránka OKO – střídání pozadí sekcí pod hero (bílá / světlá / bílá / …) */
+/* OKO – střídání sekcí pod hero: bílá / světlá / bílá / světlá / … */
 .page-oko .services-section {
     background-color: var(--color-bg);
 }
@@ -1943,11 +1955,57 @@ ul {
     background: var(--color-bg);
 }
 
-.page-oko .jobs-section {
+.page-oko .testimonials-section {
     background-color: var(--color-bg-light);
+    padding-bottom: var(--spacing-md);
+}
+
+.page-oko .jobs-section {
+    background-color: var(--color-bg);
 }
 
 .page-oko .contact-section {
+    background-color: var(--color-bg-light);
+}
+
+/* BOS-PCO – stejné střídání pod hero (včetně Reference nad volnými místy) */
+.page-bos-pco .services-section {
+    background-color: var(--color-bg);
+}
+
+.page-bos-pco .pconline-section--compact {
+    background-color: var(--color-bg-light);
+}
+
+.page-bos-pco .testimonials-section {
+    background-color: var(--color-bg);
+    padding-bottom: var(--spacing-md);
+}
+
+/* U vložené Reference na BOS-PCO / OKO – méně prázdna pod mřížkou a u „Další“ */
+.page-bos-pco .testimonials-section .testimonials-cta--reference,
+.page-oko .testimonials-section .testimonials-cta--reference {
+    margin-top: var(--spacing-md);
+    padding-top: 0;
+}
+
+.page-bos-pco .testimonials-section .testimonials-cta--reference.is-expanded,
+.page-oko .testimonials-section .testimonials-cta--reference.is-expanded {
+    margin-top: var(--spacing-lg);
+    padding-top: 0;
+}
+
+/* Reference na BOS-PCO / OKO – jen autor, bez štítku značky */
+.page-bos-pco .testimonial-footer,
+.page-oko .testimonial-footer {
+    justify-content: flex-start;
+}
+
+.page-bos-pco .jobs-section {
+    background-color: var(--color-bg-light);
+}
+
+.page-bos-pco .contact-section {
     background-color: var(--color-bg);
 }
 
