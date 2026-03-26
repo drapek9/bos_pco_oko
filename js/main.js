@@ -211,9 +211,10 @@
     function initScrollAnimations() {
         const currentPath = window.location.pathname.split('/').pop() || 'index.html';
         const isContactPage = currentPath === 'kontakt.html';
+        const isIndexPage = currentPath === 'index.html';
         const isBosPcoPage = currentPath === 'bos-pco.html';
         const isOkoPage = currentPath === 'oko.html';
-        const testimonialsStaggerPage = isBosPcoPage || isOkoPage;
+        const testimonialsStaggerPage = isIndexPage || isBosPcoPage || isOkoPage;
 
         // Elements to animate - cards and interactive elements
         const cardElements = document.querySelectorAll(
@@ -253,6 +254,27 @@
                     return false;
                 }
             }
+            /* Podstránky BOS-PCO / OKO: .page-subtitle + .page-intro v hero – CSS animace */
+            if (el.closest('.page-hero--entrance') &&
+                (el.classList.contains('page-intro') || el.classList.contains('page-subtitle'))) {
+                return false;
+            }
+            /* Index + BOS-PCO / OKO: sekce Reference – postupně po najetí (IntersectionObserver níže) */
+            if (testimonialsStaggerPage) {
+                const ts = el.closest('.testimonials-section');
+                if (ts) {
+                    if (el.classList.contains('testimonial-card') && !el.hasAttribute('hidden')) {
+                        return false;
+                    }
+                    if (el.tagName === 'H2' && el.parentElement &&
+                        el.parentElement.classList.contains('container') && ts.contains(el)) {
+                        return false;
+                    }
+                    if (el.classList.contains('section-intro') && ts.contains(el)) {
+                        return false;
+                    }
+                }
+            }
             return true;
         });
 
@@ -272,59 +294,17 @@
             return;
         }
 
-        /* BOS-PCO / OKO: sekce Reference – úvod a prvních 6 recenzí hned s animací */
-        if (testimonialsStaggerPage) {
+        /* BOS-PCO / OKO: hero .page-intro bez page-hero--entrance – hned viditelný jako dříve */
+        if (isBosPcoPage || isOkoPage) {
             filteredElements.forEach(el => {
                 if (!el) return;
-                if (el.classList.contains('page-intro') && el.closest('.page-hero')) {
+                if (el.classList.contains('page-intro') && el.closest('.page-hero') &&
+                    !el.closest('.page-hero--entrance')) {
                     el.classList.add('animate-in');
                     el.style.opacity = '';
                     el.style.transform = '';
                 }
             });
-
-            document.querySelectorAll(
-                '.testimonials-section > .container > h2, .testimonials-section .section-intro'
-            ).forEach(function(el) {
-                el.classList.add('animate-in');
-                el.style.opacity = '';
-                el.style.transform = '';
-            });
-
-            const refGrid = document.getElementById('bosPcoTestimonialsGrid') ||
-                document.getElementById('okoTestimonialsGrid');
-            const refCards = refGrid ? refGrid.querySelectorAll('.testimonial-card') : [];
-            const initialReviews = 6;
-            const staggerMs = 75;
-
-            function refRevealCard(card) {
-                card.classList.add('animate-in');
-                card.style.opacity = '';
-                card.style.transform = '';
-            }
-
-            const n = Math.min(initialReviews, refCards.length);
-            const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-            if (reducedMotion) {
-                for (let i = 0; i < n; i++) {
-                    refRevealCard(refCards[i]);
-                }
-            } else {
-                window.requestAnimationFrame(function() {
-                    window.requestAnimationFrame(function() {
-                        for (let i = 0; i < n; i++) {
-                            (function(idx) {
-                                window.setTimeout(function() {
-                                    refRevealCard(refCards[idx]);
-                                }, idx * staggerMs);
-                            })(i);
-                        }
-                    });
-                });
-            }
-
-            /* Nepřerušovat – zbytek stránky potřebuje scroll animace (dříve return schovával vše) */
         }
 
         // Ensure all elements start hidden (prevent FOUC)
@@ -335,6 +315,63 @@
             }
         });
 
+        function revealTestimonialsReferenceSection() {
+            if (!testimonialsStaggerPage) {
+                return;
+            }
+            const refSection = document.querySelector('.testimonials-section');
+            if (!refSection) {
+                return;
+            }
+            // Guard: aby se animace nespustila víckrát při opakovaném intersection
+            if (refSection.dataset.referenceRevealed === '1') {
+                return;
+            }
+            refSection.dataset.referenceRevealed = '1';
+
+            const refGrid = document.getElementById('bosPcoTestimonialsGrid') ||
+                document.getElementById('okoTestimonialsGrid') ||
+                refSection.querySelector(':scope > .container > .testimonials-grid');
+            const heading = refSection.querySelector(':scope > .container > h2');
+            const intro = refSection.querySelector(':scope > .container > .section-intro');
+            const refCards = refGrid
+                ? refGrid.querySelectorAll('.testimonial-card:not([hidden])')
+                : [];
+
+            function refReveal(el) {
+                if (!el) {
+                    return;
+                }
+                el.classList.add('animate-in');
+                el.style.opacity = '';
+                el.style.transform = '';
+            }
+
+            // Postupné odhalování (vizuálně znatelnější stagger)
+            const introDelayMs = 200;
+            const cardsStartDelayMs = 400;
+            const staggerMs = 120;
+            const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            if (reducedMotion) {
+                refReveal(heading);
+                refReveal(intro);
+                refCards.forEach(refReveal);
+            } else {
+                // Nadpis hned, perex a pak karty s postupným staggerem
+                refReveal(heading);
+                window.setTimeout(function() {
+                    refReveal(intro);
+                }, introDelayMs);
+
+                refCards.forEach(function(card, idx) {
+                    window.setTimeout(function() {
+                        refReveal(card);
+                    }, cardsStartDelayMs + idx * staggerMs);
+                });
+            }
+        }
+
         if (!('IntersectionObserver' in window)) {
             // Fallback for browsers without IntersectionObserver
             filteredElements.forEach(el => {
@@ -342,6 +379,7 @@
                     el.classList.add('animate-in');
                 }
             });
+            revealTestimonialsReferenceSection();
             return;
         }
 
@@ -376,6 +414,22 @@
                 observer.observe(el);
             }
         });
+
+        if (testimonialsStaggerPage) {
+            const refSection = document.querySelector('.testimonials-section');
+            if (refSection) {
+                const refSectionObserver = new IntersectionObserver(function(entries) {
+                    entries.forEach(function(entry) {
+                        if (!entry.isIntersecting) {
+                            return;
+                        }
+                        revealTestimonialsReferenceSection();
+                        refSectionObserver.unobserve(entry.target);
+                    });
+                }, observerOptions);
+                refSectionObserver.observe(refSection);
+            }
+        }
     }
 
     // ============================================

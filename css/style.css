@@ -692,6 +692,30 @@ ul {
     transform: translateY(0);
 }
 
+/* BOS-PCO / OKO: vstup hero jako na indexu – „nadpis“ zleva, perex zespoda */
+.page-hero--entrance .page-subtitle {
+    opacity: 0;
+    transform: translateX(-2rem);
+    animation: hero-copy-slide-in 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: 0.25s;
+}
+
+.page-hero--entrance .page-intro {
+    opacity: 0;
+    transform: translateY(1.5rem);
+    animation: hero-cta-rise-in 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: 0.7s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .page-hero--entrance .page-subtitle,
+    .page-hero--entrance .page-intro {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+}
+
 /* ============================================
    CTA Section
    ============================================ */
