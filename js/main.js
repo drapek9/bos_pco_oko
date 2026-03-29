@@ -502,16 +502,16 @@
         }
 
         var items = [
-            { src: 'img/osvedceni-1.jpg', alt: 'Proškolení ACS-Line', title: 'Proškolení ACS-Line' },
-            { src: 'img/osvedceni-2.jpg', alt: 'Proškolení FBII', title: 'Proškolení FBII' },
-            { src: 'img/osvedceni-3.jpg', alt: 'Proškolení Euroalarm', title: 'Proškolení Euroalarm' },
-            { src: 'img/osvedceni-4.jpg', alt: 'Proškolení Paradox Security', title: 'Proškolení Paradox Security' },
-            { src: 'img/osvedceni-5.jpg', alt: 'Proškolení Esprit', title: 'Proškolení Esprit' },
-            { src: 'img/osvedceni-6.jpg', alt: 'Proškolení Honeywell Galaxy', title: 'Proškolení Honeywell Galaxy' },
-            { src: 'img/osvedceni-7.jpg', alt: 'Proškolení Alphatel', title: 'Proškolení Alphatel' },
-            { src: 'img/osvedceni-8.jpg', alt: 'Proškolení Dominus', title: 'Proškolení Dominus' },
-            { src: 'img/osvedceni-9.jpg', alt: 'Proškolení EPS Lites', title: 'Proškolení EPS Lites' },
-            { src: 'img/osvedceni-10.jpg', alt: 'Certifikát Jablotron', title: 'Certifikát Jablotron' }
+            { src: 'img/osvedceni-1.jpg', alt: 'Osvědčení o školení ACS-Line', title: 'Proškolení ACS-Line' },
+            { src: 'img/osvedceni-2.jpg', alt: 'Osvědčení o školení FBII', title: 'Proškolení FBII' },
+            { src: 'img/osvedceni-3.jpg', alt: 'Osvědčení o školení Euroalarm', title: 'Proškolení Euroalarm' },
+            { src: 'img/osvedceni-4.jpg', alt: 'Osvědčení o školení Paradox Security', title: 'Proškolení Paradox Security' },
+            { src: 'img/osvedceni-5.jpg', alt: 'Osvědčení o školení Esprit', title: 'Proškolení Esprit' },
+            { src: 'img/osvedceni-6.jpg', alt: 'Osvědčení o školení Honeywell Galaxy', title: 'Proškolení Honeywell Galaxy' },
+            { src: 'img/osvedceni-7.jpg', alt: 'Osvědčení o školení Alphatel', title: 'Proškolení Alphatel' },
+            { src: 'img/osvedceni-8.jpg', alt: 'Osvědčení o školení Dominus', title: 'Proškolení Dominus' },
+            { src: 'img/osvedceni-9.jpg', alt: 'Osvědčení o školení EPS Lites', title: 'Proškolení EPS Lites' },
+            { src: 'img/osvedceni-10.jpg', alt: 'Certifikát výrobce Jablotron', title: 'Certifikát Jablotron' }
         ];
 
         var gridHost = document.getElementById('certLightboxGrid');
