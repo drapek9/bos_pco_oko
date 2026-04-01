@@ -1094,6 +1094,143 @@ ul {
     margin-top: var(--spacing-xl);
 }
 
+/* Fotky ze zakázek – bento grid (3 řádky, různé šířky / výšky přes span) */
+.work-photos-section {
+    padding: var(--spacing-2xl) 0;
+    background-color: var(--color-bg);
+}
+
+.work-photos-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-rows: repeat(3, minmax(140px, 22vmin));
+    gap: clamp(0.75rem, 1.5vw, 1.25rem);
+    margin-top: var(--spacing-xl);
+}
+
+.work-photo-card {
+    padding: 0;
+    overflow: hidden;
+    border-radius: clamp(16px, 2.2vw, 20px);
+    min-height: 0;
+}
+
+.work-photo-card img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 140px;
+    object-fit: cover;
+    transform: scale(1);
+    transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.work-photo-card:hover img {
+    transform: scale(1.04);
+}
+
+/*
+ * Mřížka 6×3, 8 fotek:
+ * a – 2×2 (velká), b/e/f – široké přes 2 sloupce, g – široká přes 3 sloupce (dolní pás),
+ * c/h – vysoké přes 2 řádky, d – jedna buňka
+ */
+.work-photo-card--a {
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
+}
+
+.work-photo-card--b {
+    grid-column: 3 / 5;
+    grid-row: 1;
+}
+
+.work-photo-card--c {
+    grid-column: 5;
+    grid-row: 1 / 3;
+}
+
+.work-photo-card--d {
+    grid-column: 6;
+    grid-row: 1;
+}
+
+.work-photo-card--e {
+    grid-column: 3 / 5;
+    grid-row: 2;
+}
+
+.work-photo-card--f {
+    grid-column: 4 / 6;
+    grid-row: 3;
+}
+
+.work-photo-card--g {
+    grid-column: 1 / 4;
+    grid-row: 3;
+}
+
+.work-photo-card--h {
+    grid-column: 6;
+    grid-row: 2 / 4;
+}
+
+@media (max-width: 960px) {
+    .work-photos-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-rows: none;
+        grid-auto-rows: minmax(140px, 42vw);
+    }
+
+    .work-photo-card--a,
+    .work-photo-card--b,
+    .work-photo-card--c,
+    .work-photo-card--d,
+    .work-photo-card--e,
+    .work-photo-card--f,
+    .work-photo-card--g,
+    .work-photo-card--h {
+        grid-column: auto;
+        grid-row: auto;
+    }
+
+    .work-photo-card--a {
+        grid-column: 1 / -1;
+        grid-row: span 2;
+        min-height: clamp(220px, 55vw, 320px);
+    }
+
+    .work-photo-card--b,
+    .work-photo-card--e,
+    .work-photo-card--f,
+    .work-photo-card--g {
+        grid-column: span 2;
+    }
+
+    .work-photo-card--c,
+    .work-photo-card--h {
+        grid-row: span 2;
+    }
+}
+
+@media (max-width: 480px) {
+    .work-photos-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: minmax(200px, 70vw);
+    }
+
+    .work-photo-card--a,
+    .work-photo-card--b,
+    .work-photo-card--c,
+    .work-photo-card--e,
+    .work-photo-card--f,
+    .work-photo-card--g,
+    .work-photo-card--h {
+        grid-column: auto;
+        grid-row: auto;
+        min-height: 0;
+    }
+}
+
 .service-card {
     background: var(--card-surface);
     padding: var(--spacing-xl);
