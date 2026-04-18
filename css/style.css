@@ -240,6 +240,10 @@ ul {
     box-shadow: 0 4px 20px rgba(15, 23, 42, 0.15);
 }
 
+.header--scrolled .logo-img {
+    height: 32px;
+}
+
 .header-content {
     display: flex;
     justify-content: space-between;
@@ -261,7 +265,7 @@ ul {
     width: auto;
     object-fit: contain;
     transform-origin: center center;
-    transition: transform 0.25s ease;
+    transition: transform 0.25s ease, height 0.25s ease;
 }
 
 .logo:hover .logo-img,
@@ -277,6 +281,10 @@ ul {
 @media (max-width: 768px) {
     .logo-img {
         height: 40px;
+    }
+
+    .header--scrolled .logo-img {
+        height: 36px;
     }
     
     .logo-text {
@@ -476,6 +484,13 @@ ul {
     margin-bottom: 0.35rem;
 }
 
+/* OKO: výška se doplní z JS podle skutečné výšky loga BOS */
+.hero--with-visual .cta-oko .cta-logo {
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+}
+
 .hero--with-visual .cta-description {
     font-size: 1rem;
     line-height: 1.4;
@@ -635,10 +650,154 @@ ul {
         linear-gradient(135deg, #0f172a 0%, var(--color-primary-dark) 40%, var(--color-primary) 100%);
 }
 
+/* BOS-PCO: portrét vpravo, větší, celá fotka (contain), přilepený ke spodu; svisle neusekávat u horní hrany */
+.hero-bos--with-portrait.hero--with-visual.page-hero,
+.hero-bos--with-portrait.page-hero {
+    overflow-x: hidden;
+    overflow-y: visible;
+    padding-top: var(--spacing-xl);
+    padding-bottom: 0;
+}
+
+.hero-bos--with-portrait .hero-layout {
+    align-items: end;
+    grid-template-columns: minmax(0, 1fr) minmax(240px, 38%);
+}
+
+.hero-bos--with-portrait .hero-copy {
+    /* Mezera pod textem vlevo; sekce sama nemá spodní padding – fotka sedí na spodní hranu hero */
+    padding-bottom: var(--spacing-2xl);
+}
+
+.hero-bos-portrait {
+    align-self: end;
+    justify-self: end;
+    width: 100%;
+    max-width: 320px;
+    margin-bottom: 0;
+    /* Může růst směrem nahoru ke spodnímu okraji hlavičky / horní hraně hero */
+    margin-top: clamp(-2.5rem, -3vh, 0);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    pointer-events: none;
+    line-height: 0;
+    flex-shrink: 0;
+}
+
+.hero-bos-portrait__img {
+    width: 100%;
+    height: auto;
+    max-height: min(52vh, 460px);
+    object-fit: contain;
+    object-position: center bottom;
+    display: block;
+    filter: drop-shadow(0 14px 32px rgba(0, 0, 0, 0.35));
+}
+
+@media (max-width: 960px) {
+    .hero-bos-portrait {
+        max-width: min(300px, 92vw);
+        justify-self: center;
+        margin-top: var(--spacing-sm);
+    }
+
+    .hero-bos-portrait__img {
+        max-height: min(46vh, 400px);
+    }
+
+    .hero-bos--with-portrait .hero-copy {
+        padding-bottom: 0;
+        text-align: center;
+    }
+
+    .hero-bos--with-portrait .page-subtitle,
+    .hero-bos--with-portrait .page-intro {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-bos--with-portrait .page-intro {
+        max-width: 36rem;
+    }
+}
+
 .hero-oko {
     background:
         radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 55%),
         linear-gradient(135deg, #0f172a 0%, var(--color-primary-dark) 40%, var(--color-primary) 100%);
+}
+
+/* OKO: čtyři karty „Proč si vybrat“ – <div> mezi hero a službami, přesah ~50/50, elevation */
+.page-oko {
+    --oko-bridge-overlap: clamp(5.25rem, 11vw, 8.5rem);
+}
+
+.page-oko .page-hero.hero--with-visual.hero-oko {
+    padding-bottom: var(--oko-bridge-overlap);
+    overflow: visible;
+}
+
+.oko-hero-bridge {
+    position: relative;
+    z-index: 5;
+    margin-top: calc(-1 * var(--oko-bridge-overlap));
+    margin-bottom: calc(-1 * var(--oko-bridge-overlap));
+    padding: 0;
+    pointer-events: none;
+}
+
+.oko-hero-bridge .container {
+    pointer-events: auto;
+}
+
+.oko-hero-bridge__grid {
+    margin-top: 0;
+}
+
+.oko-hero-bridge__sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+
+.page-oko .oko-hero-bridge .feature-card {
+    background: #fff;
+    box-shadow:
+        0 2px 4px rgba(15, 23, 42, 0.04),
+        0 12px 28px rgba(15, 23, 42, 0.1),
+        0 24px 56px rgba(15, 23, 42, 0.08);
+    border: 1px solid rgba(148, 163, 184, 0.4);
+}
+
+.page-oko .oko-hero-bridge .feature-card:hover {
+    transform: translateY(-6px);
+    box-shadow:
+        0 4px 8px rgba(15, 23, 42, 0.06),
+        0 18px 40px rgba(15, 23, 42, 0.12),
+        0 36px 72px rgba(15, 23, 42, 0.1);
+    border-color: rgba(56, 189, 248, 0.5);
+}
+
+.page-oko .oko-hero-bridge + .services-section {
+    padding-top: calc(var(--spacing-2xl) + var(--oko-bridge-overlap));
+}
+
+@media (max-width: 640px) {
+    .page-oko {
+        --oko-bridge-overlap: clamp(4.25rem, 14vw, 6.5rem);
+    }
+
+    .page-oko .oko-hero-bridge + .services-section {
+        padding-top: calc(var(--spacing-xl) + var(--oko-bridge-overlap));
+    }
 }
 
 .contact-hero {
@@ -848,6 +1007,59 @@ ul {
     margin-bottom: var(--spacing-xl);
 }
 
+.testimonials-section--logos .section-intro {
+    text-align: left;
+    margin-left: var(--spacing-md);
+    margin-right: auto;
+    padding-left: 0;
+}
+
+.reference-logo-marquee {
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(30, 58, 138, 0.08);
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    padding: 1rem 0;
+}
+
+.reference-logo-track {
+    display: flex;
+    align-items: center;
+    gap: clamp(1.5rem, 3vw, 3rem);
+    flex-shrink: 0;
+    min-width: 100%;
+    animation: reference-logos-marquee 34s linear infinite;
+    will-change: transform;
+}
+
+.reference-logo {
+    height: clamp(42px, 5vw, 64px);
+    width: auto;
+    object-fit: contain;
+    opacity: 0.9;
+    filter: grayscale(0.05);
+    flex: 0 0 auto;
+}
+
+@keyframes reference-logos-marquee {
+    from {
+        transform: translate3d(0, 0, 0);
+    }
+    to {
+        transform: translate3d(-100%, 0, 0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .reference-logo-track {
+        animation: none;
+    }
+}
+
 .testimonials-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -930,6 +1142,11 @@ ul {
 
 .testimonials-cta--dual .btn-primary {
     margin: 0;
+}
+
+/* Domů: reference jen s odkazy (bez mřížky) – menší mezera po perexu */
+.testimonials-section .section-intro + .testimonials-cta--dual {
+    margin-top: var(--spacing-xl);
 }
 
 /* Reference + „Další“: oddělení od mřížky, větší mezera po rozšíření */
@@ -1363,6 +1580,12 @@ ul {
         filter 0.55s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* OKO: pozadí služeb držíme o něco menší */
+.page-oko .service-card__photo-slot {
+    background-size: 86% auto;
+    transform: scale(1);
+}
+
 .page-bos-pco .service-card--photo::after,
 .page-oko .service-card--photo::after {
     content: "";
@@ -1482,12 +1705,56 @@ ul {
     text-shadow: none;
 }
 
+/* PCO karta: tlačítko PCOnline fixně dole bez vlivu na výšku karty */
+.page-bos-pco .service-card--pco {
+    /* Rezerva pro absolutně pozicované tlačítko, aby nelezlo do textu */
+    padding-bottom: calc(var(--spacing-xl) + 1.1rem);
+}
+
+.page-bos-pco .service-card--pco .service-card__subtle-link {
+    position: absolute;
+    left: var(--spacing-lg);
+    bottom: var(--spacing-lg);
+    z-index: 3;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2rem;
+    padding: 0.34rem 0.78rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    background: rgba(15, 23, 42, 0.32);
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.25);
+    backdrop-filter: blur(2px);
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.page-bos-pco .service-card--pco .service-card__subtle-link:hover,
+.page-bos-pco .service-card--pco .service-card__subtle-link:focus-visible {
+    background: rgba(15, 23, 42, 0.46);
+    border-color: rgba(255, 255, 255, 0.52);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
 /* Hover: fotka živější + jemný zoom, překryv lehčí */
 .page-bos-pco .service-card--photo:hover .service-card__photo-slot,
 .page-oko .service-card--photo:hover .service-card__photo-slot {
     opacity: 1;
     transform: scale(1.045);
     filter: saturate(1.05) brightness(1);
+}
+
+/* OKO: i při hoveru zůstane menší než na BOS-PCO */
+.page-oko .service-card--photo:hover .service-card__photo-slot {
+    background-size: 86% auto;
+    transform: scale(1.045);
 }
 
 .page-bos-pco .service-card--photo:hover::after,
@@ -1844,6 +2111,11 @@ ul {
     grid-template-columns: 1fr;
 }
 
+/* Kotva "Kariéra" na BOS-PCO: sekce se otevře o trochu níž pod sticky headerem */
+.page-bos-pco #volna-mista {
+    scroll-margin-top: 7.5rem;
+}
+
 .job-card {
     background: var(--card-surface);
     padding: var(--spacing-md) var(--spacing-lg);
@@ -2170,21 +2442,22 @@ ul {
     background-color: var(--color-bg);
 }
 
-.page-oko .licence-section {
-    background-color: var(--color-bg-light);
-}
-
+/* OKO: služby (bílá) → stažení (světlá) → volná místa (bílá) → licence (světlá) → reference (bílá) → kontakt (světlá) */
 .page-oko .teamviewer-section {
-    background: var(--color-bg);
-}
-
-.page-oko .testimonials-section {
-    background-color: var(--color-bg-light);
-    padding-bottom: var(--spacing-md);
+    background: var(--color-bg-light);
 }
 
 .page-oko .jobs-section {
     background-color: var(--color-bg);
+}
+
+.page-oko .licence-section {
+    background-color: var(--color-bg-light);
+}
+
+.page-oko .testimonials-section {
+    background-color: var(--color-bg);
+    padding-bottom: var(--spacing-md);
 }
 
 .page-oko .contact-section {
@@ -2194,10 +2467,6 @@ ul {
 /* BOS-PCO – stejné střídání pod hero (včetně Reference nad volnými místy) */
 .page-bos-pco .services-section {
     background-color: var(--color-bg);
-}
-
-.page-bos-pco .pconline-section--compact {
-    background-color: var(--color-bg-light);
 }
 
 .page-bos-pco .testimonials-section {
@@ -2229,7 +2498,7 @@ ul {
 }
 
 .page-bos-pco .contact-section {
-    background-color: var(--color-bg);
+    background-color: var(--color-bg-light);
 }
 
 .contact-grid {
@@ -2264,7 +2533,7 @@ ul {
 
 .contact-card h3 {
     color: var(--color-text);
-    margin-bottom: var(--spacing-md);
+    margin-bottom: 7.5px;
     transition: var(--transition);
 }
 
@@ -2280,6 +2549,99 @@ ul {
 .contact-card a {
     color: var(--color-primary);
     font-weight: 500;
+}
+
+.page-bos-pco .contact-card--with-photo {
+    display: grid;
+    grid-template-columns: minmax(160px, 220px) minmax(230px, 1fr) minmax(230px, 1fr);
+    align-items: start;
+    gap: var(--spacing-lg);
+}
+
+.page-bos-pco .contact-card__photo,
+.page-oko .contact-card__photo {
+    grid-column: 1;
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-height: 220px;
+    object-fit: cover;
+    border-radius: calc(var(--border-radius) - 4px);
+    border: 1px solid rgba(30, 58, 138, 0.12);
+}
+
+.page-bos-pco .contact-card__content {
+    grid-column: 2;
+}
+
+.page-bos-pco .contact-card__content p:last-child {
+    margin-bottom: 0;
+}
+
+.page-oko .contact-card--with-photo {
+    display: grid;
+    grid-template-columns: minmax(160px, 220px) 1fr;
+    align-items: start;
+    gap: var(--spacing-lg);
+}
+
+.page-oko .contact-card__content {
+    grid-column: 2;
+}
+
+.page-oko .contact-card__content p:last-child {
+    margin-bottom: 0;
+}
+
+.page-bos-pco .contact-card__dispatch {
+    grid-column: 3;
+    align-self: end;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.page-bos-pco .contact-card__dispatch h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: var(--spacing-sm);
+}
+
+.page-bos-pco .contact-card:hover .contact-card__dispatch h3 {
+    color: var(--color-primary);
+}
+
+.page-bos-pco .contact-card__dispatch p:last-child {
+    margin-bottom: 0;
+}
+
+@media (max-width: 960px) {
+    .page-bos-pco .contact-card--with-photo {
+        grid-template-columns: minmax(140px, 200px) 1fr;
+    }
+
+    .page-bos-pco .contact-card__dispatch {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 640px) {
+    .page-bos-pco .contact-card--with-photo {
+        grid-template-columns: 1fr;
+    }
+
+    .page-oko .contact-card--with-photo {
+        grid-template-columns: 1fr;
+    }
+
+    .page-bos-pco .contact-card__photo,
+    .page-bos-pco .contact-card__content,
+    .page-oko .contact-card__photo,
+    .page-oko .contact-card__content,
+    .page-bos-pco .contact-card__dispatch {
+        grid-column: 1;
+    }
 }
 
 .contact-info {
@@ -2445,7 +2807,7 @@ ul {
    Licence Section
    ============================================ */
 .licence-section {
-    padding: var(--spacing-2xl) 0;
+    padding: var(--spacing-2xl) 0 var(--spacing-lg);
     background-color: var(--color-bg-light);
 }
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="cs" id="top">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -71,6 +71,10 @@
             opacity: 0;
             transform: translateY(1.5rem);
         }
+        h2.oko-hero-bridge__sr-only {
+            opacity: 1;
+            transform: none;
+        }
     </style>
 </head>
 <body class="page-oko">
@@ -97,8 +101,8 @@
     <header class="header">
         <div class="container">
             <div class="header-content">
-                <a href="index.html" class="logo">
-                    <img src="img/oko.png" alt="BOS-PCO a OKO – domovská stránka" class="logo-img" decoding="async">
+                <a href="#top" class="logo" aria-label="Na začátek stránky">
+                    <img src="img/oko_logo_original.png" alt="" class="logo-img" decoding="async">
                     <!-- <span class="logo-text">BOS-PCO & OKO</span> -->
                 </a>
                 <button class="menu-toggle" aria-label="Menu" id="menuToggle">
@@ -110,6 +114,7 @@
                     <a href="index.html" class="nav-link">Domů</a>
                     <a href="bos-pco.html" class="nav-link">BOS-PCO</a>
                     <a href="oko.html" class="nav-link active">OKO</a>
+                    <a href="bos-pco.html#volna-mista" class="nav-link">Kariéra</a>
                     <a href="kontakt.html" class="nav-link">Kontakt</a>
                 </nav>
             </div>
@@ -117,19 +122,57 @@
     </header>
 
     <main>
-        <section class="page-hero hero-oko page-hero--entrance">
+        <section class="page-hero hero-oko page-hero--entrance hero--with-visual">
             <div class="container">
-                <div class="hero-logos">
-                    <img src="img/oko_logo.png" alt="Logo OKO – Ing. Vojtěch Jíra" class="hero-logo" decoding="async">
+                <div class="hero-layout">
+                    <div class="hero-copy">
+                        <p class="page-subtitle">Ing. Vojtěch Jíra</p>
+                        <p class="page-intro">
+                            Chráníme to, na čem vám záleží, již od roku 1996. Jsme experti na montáž špičkových zabezpečovacích a kamerových systémů s tradicí, která zavazuje. Aby byla vaše ochrana kompletní, od roku 2005 zajišťujeme také nepřetržité střežení objektů prostřednictvím vlastního pultu centrální ochrany (PCO). Spojte moderní technologie s desítkami let našich zkušeností.
+                        </p>
+                    </div>
+                    <div class="hero-visual">
+                        <img src="img/services/camera.png" alt="Ilustrace kamerového dohledu a zabezpečení objektů" class="hero-visual__img" width="520" decoding="async">
+                    </div>
                 </div>
-                <p class="page-subtitle">Ing. Vojtěch Jíra</p>
-                <p class="page-intro">
-                    Od roku 1996 poskytujeme komplexní služby v oblasti montáží, servisu 
-                    a revizí zabezpečovacích systémů. Individuální přístup, technická 
-                    řešení na míru a dlouhodobá podpora.
-                </p>
             </div>
         </section>
+
+        <div class="oko-hero-bridge" aria-labelledby="oko-why-cards-heading">
+            <h2 id="oko-why-cards-heading" class="oko-hero-bridge__sr-only">Proč si vybrat naše služby</h2>
+            <div class="container">
+                <div class="features-grid oko-hero-bridge__grid">
+                    <article class="feature-card">
+                        <h3>Dlouholeté zkušenosti</h3>
+                        <p>
+                            OKO působí na trhu od roku 1996.
+                            Kombinujeme tradici s moderními technologiemi.
+                        </p>
+                    </article>
+                    <article class="feature-card">
+                        <h3>Komplexní řešení</h3>
+                        <p>
+                            Od technického zabezpečení přes montáže až po fyzickou ochranu.
+                            Vše z jedné ruky, sjednocený přístup a koordinace.
+                        </p>
+                    </article>
+                    <article class="feature-card">
+                        <h3>Lokální působení</h3>
+                        <p>
+                            Působíme v regionu Chrudim a okolí. Rychlá dostupnost,
+                            osobní přístup a znalost místních podmínek.
+                        </p>
+                    </article>
+                    <article class="feature-card">
+                        <h3>Profesionální tým</h3>
+                        <p>
+                            Prověření pracovníci s potřebnými licencemi a certifikáty.
+                            Pravidelná školení a dodržování nejvyšších standardů.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </div>
 
         <section class="services-section">
             <div class="container">
@@ -137,7 +180,7 @@
                 <!-- Pozadí karet: fotky ve složce img/services/ (oko-*.jpg) -->
                 <div class="services-grid">
                     <article class="service-card service-oko service-card--photo">
-                        <div class="service-card__photo-slot" aria-hidden="true" style="background-image: url('img/services/pco_2.png');"></div>
+                        <div class="service-card__photo-slot" aria-hidden="true" style="background-image: url('img/services/EZS_elektrická_zabezpecovaci_signalizace.png');"></div>
                         <h3>Elektrická zabezpečovací signalizace EZS</h3>
                         <p>
                             Komplexní dodávky, montáže a servis elektrických zabezpečovacích 
@@ -155,7 +198,7 @@
                     </article>
 
                     <article class="service-card service-oko service-card--photo">
-                        <div class="service-card__photo-slot" aria-hidden="true" style="background-image: url('img/services/security_2.png');"></div>
+                        <div class="service-card__photo-slot" aria-hidden="true" style="background-image: url('img/services/CCTV_kamerove_systemy.png');"></div>
                         <h3>CCTV - Kamerové systémy</h3>
                         <p>
                             Dodávky, montáže a servis kamerových systémů CCTV. Komplexní 
@@ -172,7 +215,7 @@
                     </article>
 
                     <article class="service-card service-oko service-card--photo">
-                        <div class="service-card__photo-slot" aria-hidden="true" style="background-image: url('img/services/uklid.png');"></div>
+                        <div class="service-card__photo-slot" aria-hidden="true" style="background-image: url('img/services/EPS_pozarni_tlacitko.png');"></div>
                         <h3>Elektrická požární signalizace EPS</h3>
                         <p>
                             Dodávky, montáže a servis elektrických požárních signalizací. 
@@ -189,7 +232,7 @@
                     </article>
 
                     <article class="service-card service-oko service-card--photo">
-                        <div class="service-card__photo-slot" aria-hidden="true" style="background-image: url('img/services/pco_2.png');"></div>
+                        <div class="service-card__photo-slot" aria-hidden="true" style="background-image: url('img/services/dochazkove_a_pristupove_systemy.png');"></div>
                         <h3>Docházkové a přístupové systémy</h3>
                         <p>
                             Komplexní řešení docházkových a přístupových systémů. Od 
@@ -204,21 +247,6 @@
                             <li>Integrace a servis</li>
                         </ul>
                     </article>
-                </div>
-            </div>
-        </section>
-
-        <section class="licence-section">
-            <div class="container">
-                <h2>Licence a koncese</h2>
-                <p class="licence-intro">
-                    Máme potřebné licence a certifikáty pro práci se zabezpečovacími systémy.
-                    Prohlédněte si je v galerii níže.
-                </p>
-                <div class="licence-cta">
-                    <button type="button" class="btn-licence-gallery" id="openCertGallery" aria-haspopup="dialog" aria-controls="certLightbox">
-                        Zobrazit certifikáty
-                    </button>
                 </div>
             </div>
         </section>
@@ -244,20 +272,75 @@
                     </article>
 
                     <article class="feature-card download-card">
-                        <h3>Manuál, jak si nainstalovat kamery do mobilu</h3>
-                        <p>Jednoduchý návod krok za krokem.</p>
+                        <h3>HIK CONNECT - CLOUD</h3>
+                        <p>Návod k instalaci aplikace HIK CONNECT pro kamerový systém v režimu CLOUD.</p>
                         <div class="download-actions">
-                            <button type="button" class="btn-primary">Stáhnout</button>
+                            <a class="btn-primary" href="navody/kamerovy_system_cloud.pdf" download>Stáhnout</a>
                         </div>
                     </article>
 
                     <article class="feature-card download-card">
-                        <h3>Manuál, jak si nainstalovat kamery do mobilu</h3>
-                        <p>Jednoduchý návod krok za krokem.</p>
+                        <h3>HIK CONNECT - veřejná IP</h3>
+                        <p>Návod k instalaci aplikace HIK CONNECT pro kamerový systém s veřejnou IP adresou.</p>
                         <div class="download-actions">
-                            <button type="button" class="btn-primary">Stáhnout</button>
+                            <a class="btn-primary" href="navody/kamerovy_system_ver_ip.pdf" download>Stáhnout</a>
                         </div>
                     </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="jobs-section" id="volna-mista">
+            <div class="container">
+                <h2>Volná pracovní místa</h2>
+                <p class="jobs-intro">
+                    Níže najdete aktuální příležitosti - pro více informací kontaktujte uvedenou osobu.
+                </p>
+                <div class="jobs-grid">
+                    <article class="job-card job-card--oko">
+                        <div class="job-card__content">
+                            <div class="job-field">
+                                <span class="job-field__label">Název pozice</span>
+                                <h3>Montážní technik slaboproudých systémů</h3>
+                            </div>
+                            <div class="job-field">
+                                <span class="job-field__label">Popis práce</span>
+                                <div class="job-field__body">
+                                    <p>Hledáme montážního technika pro instalace slaboproudých systémů-kamerové, zabezpečovací, datové, který se nebojí manuální práce. Práce v menším týmu. Nejedná se o práci na směny. </p>
+                                </div>
+                            </div>
+                            <div class="job-field">
+                                <span class="job-field__label">Požadujeme</span>
+                                <div class="job-field__body">
+                                    <p>Spolehlivost, zodpovědný přístup k práci a ochotu učit se novým věcem. Řidičský průkaz sk.B. Praxi v oboru elektro (není podmínkou). Stačí mít vztah k elektru a zbytek naučíme. Vyhláška 50 není podmínkou. Bezúhonnost.</p>
+                                </div>
+                            </div>
+                            <div class="job-field">
+                                <span class="job-field__label">Kontakt na odpovědnou osobu</span>
+                                <div class="job-field__body job-field__body--contact">
+                                    <p>
+                                        <span class="job-contact-name">Ing. Vojtěch Jíra</span><br>
+                                        <a href="tel:+420603465031">603 465 031</a> · <a href="mailto:jira@bos-pco.cz">jira@bos-pco.cz</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="licence-section">
+            <div class="container">
+                <h2>Licence a koncese</h2>
+                <p class="licence-intro">
+                    Máme potřebné licence a certifikáty pro práci se zabezpečovacími systémy.
+                    Prohlédněte si je v galerii níže.
+                </p>
+                <div class="licence-cta">
+                    <button type="button" class="btn-licence-gallery" id="openCertGallery" aria-haspopup="dialog" aria-controls="certLightbox">
+                        Zobrazit certifikáty
+                    </button>
                 </div>
             </div>
         </section>
@@ -349,57 +432,20 @@
             </div>
         </section> -->
 
-        <section class="jobs-section" id="volna-mista">
-            <div class="container">
-                <h2>Volná pracovní místa</h2>
-                <p class="jobs-intro">
-                    Níže najdete aktuální příležitosti - pro více informací kontaktujte uvedenou osobu.
-                </p>
-                <div class="jobs-grid">
-                    <article class="job-card job-card--oko">
-                        <div class="job-card__content">
-                            <div class="job-field">
-                                <span class="job-field__label">Název pozice</span>
-                                <h3>Montážní technik slaboproudých systémů</h3>
-                            </div>
-                            <div class="job-field">
-                                <span class="job-field__label">Popis práce</span>
-                                <div class="job-field__body">
-                                    <p>Hledáme montážního technika pro instalace slaboproudých systémů-kamerové, zabezpečovací, datové, který se nebojí manuální práce. Práce v menším týmu. Nejedná se o práci na směny. </p>
-                                </div>
-                            </div>
-                            <div class="job-field">
-                                <span class="job-field__label">Požadujeme</span>
-                                <div class="job-field__body">
-                                    <p>Spolehlivost, zodpovědný přístup k práci a ochotu učit se novým věcem. Řidičský průkaz sk.B. Praxi v oboru elektro (není podmínkou). Stačí mít vztah k elektru a zbytek naučíme. Vyhláška 50 není podmínkou. Bezúhonnost.</p>
-                                </div>
-                            </div>
-                            <div class="job-field">
-                                <span class="job-field__label">Kontakt na odpovědnou osobu</span>
-                                <div class="job-field__body job-field__body--contact">
-                                    <p>
-                                        <span class="job-contact-name">Ing. Vojtěch Jíra</span><br>
-                                        <a href="tel:+420603465031">603 465 031</a> · <a href="mailto:jira@bos-pco.cz">jira@bos-pco.cz</a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
-
         <section class="contact-section">
             <div class="container">
                 <h2>Kontakt</h2>
                 <div class="contact-grid">
-                    <div class="contact-card">
-                        <h3>OKO</h3>
-                        <p>Ing. Vojtěch Jíra</p>
-                        <p>Náměstí čp. 6</p>
-                        <p>538 51 Chrast u Chrudimi</p>
-                        <p><strong>Telefon:</strong> <a href="tel:+420469666854">+420 469 666 854</a></p>
-                        <p><strong>Email:</strong> <a href="mailto:jira@bos-pco.cz">jira@bos-pco.cz</a></p>
+                    <div class="contact-card contact-card--with-photo">
+                        <img src="img/oko_adresa.JPG" alt="Sídlo OKO – Ing. Vojtěch Jíra" class="contact-card__photo" loading="lazy" decoding="async">
+                        <div class="contact-card__content">
+                            <h3>OKO</h3>
+                            <p>Ing. Vojtěch Jíra</p>
+                            <p>Náměstí čp. 6</p>
+                            <p>538 51 Chrast u Chrudimi</p>
+                            <p><strong>Telefon:</strong> <a href="tel:+420469666854">+420 469 666 854</a></p>
+                            <p><strong>Email:</strong> <a href="mailto:jira@bos-pco.cz">jira@bos-pco.cz</a></p>
+                        </div>
                     </div>
                 </div>
             </div>

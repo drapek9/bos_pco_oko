@@ -6,24 +6,127 @@
 (function() {
     'use strict';
 
+    /**
+     * Výška „lepící“ horní části (lišta kontaktů, pokud je vidět + hlavička) + rezerva pro kotvy.
+     */
+    function getStickyHeaderScrollOffset() {
+        const hdr = document.querySelector('.header');
+        const bar = document.getElementById('topContactBar');
+        let offset = (hdr ? hdr.getBoundingClientRect().height : 72) + 16;
+        if (bar && !bar.classList.contains('top-contact-bar--hidden')) {
+            offset += bar.getBoundingClientRect().height;
+        }
+        return offset;
+    }
+
+    function scrollToHashTarget() {
+        const raw = window.location.hash;
+        if (!raw || raw === '#') {
+            return;
+        }
+        let target = null;
+        try {
+            target = document.querySelector(raw);
+        } catch (err1) {
+            /* neplatný selektor v URL */
+        }
+        if (!target && raw.length > 1) {
+            try {
+                target = document.querySelector('#' + CSS.escape(decodeURIComponent(raw.slice(1))));
+            } catch (err2) {
+                return;
+            }
+        }
+        if (!target) {
+            return;
+        }
+        const y = target.getBoundingClientRect().top + window.pageYOffset - getStickyHeaderScrollOffset();
+        window.scrollTo({ top: Math.max(0, y), behavior: 'auto' });
+    }
+
+    function scheduleScrollToHashTarget() {
+        window.requestAnimationFrame(function() {
+            window.requestAnimationFrame(scrollToHashTarget);
+        });
+    }
+
+    function bindHashScrollOnReady() {
+        if (!window.location.hash) {
+            return;
+        }
+        scheduleScrollToHashTarget();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bindHashScrollOnReady);
+    } else {
+        bindHashScrollOnReady();
+    }
+    window.addEventListener('load', bindHashScrollOnReady);
+    window.addEventListener('hashchange', scrollToHashTarget);
+
     // ============================================
     // Horní lišta kontaktů – skrytí při scrollu, znovu jen nahoře
     // ============================================
     const topContactBar = document.getElementById('topContactBar');
+    const header = document.querySelector('.header');
     if (topContactBar) {
         const scrollThreshold = 12;
 
         function updateTopContactBar() {
             if (window.scrollY > scrollThreshold) {
                 topContactBar.classList.add('top-contact-bar--hidden');
+                if (header) {
+                    header.classList.add('header--scrolled');
+                }
             } else {
                 topContactBar.classList.remove('top-contact-bar--hidden');
+                if (header) {
+                    header.classList.remove('header--scrolled');
+                }
             }
         }
 
         window.addEventListener('scroll', updateTopContactBar, { passive: true });
         updateTopContactBar();
     }
+
+    // ============================================
+    // OKO / BOS-PCO: logo v hlavičce jen přescrolluje nahoru (bez odchodu na Domů)
+    // ============================================
+    (function initHeaderLogoScrollTopOnSubpages() {
+        const body = document.body;
+        if (!body.classList.contains('page-oko') && !body.classList.contains('page-bos-pco')) {
+            return;
+        }
+        const logo = document.querySelector('.header a.logo');
+        if (!logo) {
+            return;
+        }
+        logo.addEventListener('click', function(e) {
+            if (e.defaultPrevented || e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) {
+                return;
+            }
+            e.preventDefault();
+            const instant = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            window.scrollTo({ top: 0, behavior: instant ? 'auto' : 'smooth' });
+            if (window.history.replaceState) {
+                const path = window.location.pathname + window.location.search;
+                if (window.location.hash) {
+                    window.history.replaceState(null, '', path);
+                }
+            }
+            const mainNav = document.getElementById('mainNav');
+            const menuToggle = document.getElementById('menuToggle');
+            if (mainNav && mainNav.classList.contains('open')) {
+                mainNav.classList.remove('open');
+                if (menuToggle) {
+                    menuToggle.classList.remove('is-open');
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                }
+            }
+        });
+    })();
 
     // ============================================
     // Mobile Menu Toggle
@@ -68,6 +171,11 @@
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
+
+            /* Logo v hlavičce na OKO / BOS-PCO řeší initHeaderLogoScrollTopOnSubpages */
+            if (anchor.classList.contains('logo') && anchor.closest('.header')) {
+                return;
+            }
             
             // Skip empty hash or just #
             if (href === '#' || href === '') {
@@ -78,7 +186,7 @@
             
             if (target) {
                 e.preventDefault();
-                const headerOffset = 80;
+                const headerOffset = getStickyHeaderScrollOffset();
                 const elementPosition = target.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
@@ -119,6 +227,57 @@
 
     // Call on page load
     setActiveNavLink();
+
+    // ============================================
+    // Domů – hero karty: výška loga OKO = výška loga BOS (referenční)
+    // ============================================
+    (function initHeroCtaMatchOkoLogoToBos() {
+        const grid = document.querySelector('.hero--with-visual .hero-cta-grid');
+        if (!grid) return;
+
+        const bosLogo = grid.querySelector('.cta-bos .cta-logo');
+        const okoLogo = grid.querySelector('.cta-oko .cta-logo');
+        if (!bosLogo || !okoLogo) return;
+
+        let rafId = 0;
+
+        function apply() {
+            const h = bosLogo.getBoundingClientRect().height;
+            if (h < 1) return;
+            okoLogo.style.height = h + 'px';
+            okoLogo.style.width = 'auto';
+        }
+
+        function schedule() {
+            cancelAnimationFrame(rafId);
+            rafId = requestAnimationFrame(apply);
+        }
+
+        function bindResize() {
+            if ('ResizeObserver' in window) {
+                const ro = new ResizeObserver(schedule);
+                ro.observe(grid);
+            }
+            window.addEventListener('resize', schedule, { passive: true });
+        }
+
+        function start() {
+            schedule();
+            bindResize();
+        }
+
+        if (bosLogo.complete && bosLogo.naturalHeight > 0) {
+            start();
+        } else {
+            bosLogo.addEventListener('load', start, { once: true });
+        }
+
+        okoLogo.addEventListener('load', schedule);
+
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(schedule);
+        }
+    })();
 
     // ============================================
     // Scroll to Top Button (optional enhancement)
@@ -259,6 +418,10 @@
                 (el.classList.contains('page-intro') || el.classList.contains('page-subtitle'))) {
                 return false;
             }
+            /* OKO: plovoucí benefit karty mezi hero a službami – hned viditelné */
+            if (el.closest('.oko-hero-bridge')) {
+                return false;
+            }
             /* Index + BOS-PCO / OKO: sekce Reference – postupně po najetí (IntersectionObserver níže) */
             if (testimonialsStaggerPage) {
                 const ts = el.closest('.testimonials-section');
@@ -304,6 +467,17 @@
                     el.style.opacity = '';
                     el.style.transform = '';
                 }
+            });
+        }
+
+        if (isOkoPage) {
+            document.querySelectorAll(
+                '.oko-hero-bridge .feature-card, .oko-hero-bridge .feature-card h3, #oko-why-cards-heading'
+            ).forEach(function(el) {
+                if (!el) return;
+                el.classList.add('animate-in');
+                el.style.opacity = '';
+                el.style.transform = '';
             });
         }
 
