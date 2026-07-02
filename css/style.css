@@ -650,64 +650,62 @@ ul {
         linear-gradient(135deg, #0f172a 0%, var(--color-primary-dark) 40%, var(--color-primary) 100%);
 }
 
-/* BOS-PCO: portrét vpravo, větší, celá fotka (contain), přilepený ke spodu; svisle neusekávat u horní hrany */
-.hero-bos--with-portrait.hero--with-visual.page-hero,
-.hero-bos--with-portrait.page-hero {
-    overflow-x: hidden;
-    overflow-y: visible;
-    padding-top: var(--spacing-xl);
-    padding-bottom: 0;
+/* BOS-PCO: portrét vpravo na desktopu; na mobilu stejné skládání jako OKO hero */
+.hero-bos--with-portrait .hero-bos-portrait__img {
+    animation: none;
 }
 
-.hero-bos--with-portrait .hero-layout {
-    align-items: end;
-    grid-template-columns: minmax(0, 1fr) minmax(240px, 38%);
-}
-
-.hero-bos--with-portrait .hero-copy {
-    /* Mezera pod textem vlevo; sekce sama nemá spodní padding – fotka sedí na spodní hranu hero */
-    padding-bottom: var(--spacing-2xl);
-}
-
-.hero-bos-portrait {
-    align-self: end;
-    justify-self: end;
-    width: 100%;
-    max-width: 320px;
-    margin-bottom: 0;
-    /* Může růst směrem nahoru ke spodnímu okraji hlavičky / horní hraně hero */
-    margin-top: clamp(-2.5rem, -3vh, 0);
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    pointer-events: none;
-    line-height: 0;
-    flex-shrink: 0;
-}
-
-.hero-bos-portrait__img {
-    width: 100%;
-    height: auto;
-    max-height: min(52vh, 460px);
-    object-fit: contain;
-    object-position: center bottom;
-    display: block;
-    filter: drop-shadow(0 14px 32px rgba(0, 0, 0, 0.35));
-}
-
-@media (max-width: 960px) {
-    .hero-bos-portrait {
-        max-width: min(300px, 92vw);
-        justify-self: center;
-        margin-top: var(--spacing-sm);
+@media (min-width: 961px) {
+    .hero-bos--with-portrait.hero--with-visual.page-hero,
+    .hero-bos--with-portrait.page-hero {
+        overflow-x: hidden;
+        overflow-y: visible;
+        padding-top: var(--spacing-xl);
+        padding-bottom: 0;
     }
 
-    .hero-bos-portrait__img {
-        max-height: min(46vh, 400px);
+    .hero-bos--with-portrait .hero-layout {
+        align-items: end;
+        grid-template-columns: minmax(0, 1fr) minmax(240px, 38%);
     }
 
     .hero-bos--with-portrait .hero-copy {
+        /* Mezera pod textem vlevo; sekce sama nemá spodní padding – fotka sedí na spodní hranu hero */
+        padding-bottom: var(--spacing-2xl);
+    }
+
+    .hero-bos--with-portrait .hero-visual {
+        align-self: end;
+        justify-self: end;
+        width: 100%;
+        max-width: 320px;
+        margin: clamp(-2.5rem, -3vh, 0) 0 0;
+        padding: 0;
+        align-items: flex-end;
+        line-height: 0;
+    }
+
+    .hero-bos--with-portrait .hero-bos-portrait__img {
+        max-height: min(52vh, 460px);
+        object-position: center bottom;
+        filter: drop-shadow(0 14px 32px rgba(0, 0, 0, 0.35));
+    }
+}
+
+@media (max-width: 960px) {
+    .hero-bos--with-portrait.hero--with-visual.page-hero,
+    .hero-bos--with-portrait.page-hero {
         padding-bottom: 0;
+        overflow-x: hidden;
+    }
+
+    .hero-bos--with-portrait .hero-layout {
+        gap: var(--spacing-md);
+        align-items: center;
+    }
+
+    .hero-bos--with-portrait .hero-copy {
+        padding-bottom: var(--spacing-lg);
         text-align: center;
     }
 
@@ -719,6 +717,24 @@ ul {
 
     .hero-bos--with-portrait .page-intro {
         max-width: 36rem;
+    }
+
+    .hero-bos--with-portrait .hero-visual {
+        width: 100%;
+        max-width: min(320px, 92vw);
+        margin: 0 auto;
+        padding: 0;
+        align-items: flex-end;
+        line-height: 0;
+    }
+
+    .hero-bos--with-portrait .hero-bos-portrait__img {
+        display: block;
+        width: 100%;
+        max-height: min(46vh, 400px);
+        object-fit: contain;
+        object-position: center bottom;
+        filter: drop-shadow(0 14px 32px rgba(0, 0, 0, 0.35));
     }
 }
 
@@ -2111,8 +2127,9 @@ ul {
     grid-template-columns: 1fr;
 }
 
-/* Kotva "Kariéra" na BOS-PCO: sekce se otevře o trochu níž pod sticky headerem */
-.page-bos-pco #volna-mista {
+/* Kotva "Kariéra": sekce se otevře o trochu níž pod sticky headerem */
+.page-bos-pco #volna-mista,
+.page-oko #volna-mista {
     scroll-margin-top: 7.5rem;
 }
 
@@ -3671,5 +3688,160 @@ h3:not(.footer h3):not(.footer-column h3):not(.animate-in),
 
     h3 {
         font-size: 1.25rem;
+    }
+}
+
+/* ============================================
+   Cookie consent banner & cookies page
+   ============================================ */
+.cookie-consent {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1100;
+    padding: var(--spacing-sm);
+    transform: translateY(100%);
+    transition: transform 0.35s ease;
+    pointer-events: none;
+}
+
+.cookie-consent--visible {
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.cookie-consent__inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 1.25rem 1.5rem;
+    background: var(--color-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--color-border);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+}
+
+.cookie-consent__title {
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 0.35rem;
+}
+
+.cookie-consent__desc {
+    color: var(--color-text);
+    font-size: 0.95rem;
+    max-width: 52rem;
+    margin-bottom: 0;
+}
+
+.cookie-consent__desc a {
+    color: var(--color-primary);
+}
+
+.cookie-consent__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+.cookie-consent__btn {
+    padding: 0.7rem 1.25rem;
+    border-radius: 8px;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    font-family: inherit;
+}
+
+.cookie-consent__btn--accept {
+    background-color: var(--color-primary);
+    color: #fff;
+}
+
+.cookie-consent__btn--accept:hover {
+    background-color: var(--color-primary-dark);
+    transform: translateY(-1px);
+}
+
+.cookie-consent__btn--reject {
+    background-color: var(--color-bg-light);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+}
+
+.cookie-consent__btn--reject:hover {
+    background-color: #e2e8f0;
+}
+
+.cookies-content {
+    padding-bottom: var(--spacing-2xl);
+}
+
+.cookies-block {
+    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background-color: var(--color-bg-light);
+    border-radius: var(--border-radius);
+    border-left: 4px solid var(--color-primary);
+}
+
+.cookies-block h2 {
+    color: var(--color-primary);
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+}
+
+.cookies-block p {
+    color: var(--color-text);
+    margin-bottom: 0.75rem;
+}
+
+.cookies-block p:last-child {
+    margin-bottom: 0;
+}
+
+.cookies-block code {
+    font-size: 0.9em;
+    background: var(--color-bg);
+    padding: 0.1rem 0.35rem;
+    border-radius: 3px;
+}
+
+.cookies-preferences {
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+}
+
+.cookies-status {
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+}
+
+.cookies-preferences__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+@media (max-width: 768px) {
+    .cookie-consent__inner {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .cookie-consent__actions {
+        width: 100%;
+    }
+
+    .cookie-consent__btn {
+        flex: 1 1 auto;
     }
 }

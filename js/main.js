@@ -50,6 +50,65 @@
         });
     }
 
+    function getCurrentPageName() {
+        const segment = window.location.pathname.split('/').pop();
+        return segment && segment !== '' ? segment : 'index.html';
+    }
+
+    function parseNavLinkTarget(href) {
+        if (!href || href.startsWith('mailto:') || href.startsWith('tel:')) {
+            return null;
+        }
+        const hashIndex = href.indexOf('#');
+        const hash = hashIndex >= 0 ? href.slice(hashIndex) : '';
+        const pathPart = hashIndex >= 0 ? href.slice(0, hashIndex) : href;
+        if (!pathPart) {
+            return null;
+        }
+        if (/^https?:\/\//i.test(pathPart)) {
+            try {
+                const url = new URL(pathPart);
+                const page = url.pathname.split('/').pop();
+                return { page: page && page !== '' ? page : 'index.html', hash: hash };
+            } catch (err) {
+                return null;
+            }
+        }
+        const page = pathPart.split('/').pop();
+        return { page: page && page !== '' ? page : 'index.html', hash: hash };
+    }
+
+    function navLinkIsSamePageWithoutHash(href) {
+        const target = parseNavLinkTarget(href);
+        if (!target || target.hash) {
+            return false;
+        }
+        return target.page === getCurrentPageName();
+    }
+
+    function closeMobileNav() {
+        const mainNav = document.getElementById('mainNav');
+        const menuToggle = document.getElementById('menuToggle');
+        if (mainNav && mainNav.classList.contains('open')) {
+            mainNav.classList.remove('open');
+            if (menuToggle) {
+                menuToggle.classList.remove('is-open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            }
+        }
+    }
+
+    function scrollPageToTop() {
+        const instant = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        window.scrollTo({ top: 0, behavior: instant ? 'auto' : 'smooth' });
+        if (window.history.replaceState) {
+            const path = window.location.pathname + window.location.search;
+            if (window.location.hash) {
+                window.history.replaceState(null, '', path);
+            }
+        }
+    }
+
     function bindHashScrollOnReady() {
         if (!window.location.hash) {
             return;
@@ -108,23 +167,31 @@
                 return;
             }
             e.preventDefault();
-            const instant = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            window.scrollTo({ top: 0, behavior: instant ? 'auto' : 'smooth' });
-            if (window.history.replaceState) {
-                const path = window.location.pathname + window.location.search;
-                if (window.location.hash) {
-                    window.history.replaceState(null, '', path);
+            scrollPageToTop();
+            closeMobileNav();
+        });
+    })();
+
+    // ============================================
+    // Domů / BOS-PCO / OKO / Kontakt: na stejné stránce jen scroll nahoru
+    // ============================================
+    (function initNavSamePageScrollTop() {
+        const mainNav = document.getElementById('mainNav');
+        if (!mainNav) {
+            return;
+        }
+        mainNav.querySelectorAll('.nav-link').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                if (e.defaultPrevented || e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) {
+                    return;
                 }
-            }
-            const mainNav = document.getElementById('mainNav');
-            const menuToggle = document.getElementById('menuToggle');
-            if (mainNav && mainNav.classList.contains('open')) {
-                mainNav.classList.remove('open');
-                if (menuToggle) {
-                    menuToggle.classList.remove('is-open');
-                    menuToggle.setAttribute('aria-expanded', 'false');
+                const href = link.getAttribute('href');
+                if (!navLinkIsSamePageWithoutHash(href)) {
+                    return;
                 }
-            }
+                e.preventDefault();
+                scrollPageToTop();
+            });
         });
     })();
 
